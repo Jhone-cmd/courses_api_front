@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Login</title>
+</head>
+
+<body class="bg-slate-900 h-screen items-center flex justify-center antialiased">
+    <form>
+        <div class="text-white font-extrabold text-6xl flex items-center italic mb-8 justify-center tracking-wide">
+            <h1 class="bg-gradient-to-r from-purple-400 to-lime-400 bg-clip-text text-transparent">Courses API</h1>
+        </div>
+        <div
+            class="space-y-6 bg-purple-900/30 border border-purple-500/20 backdrop-blur-md rounded-2xl p-16 shadow-2xl">
+
+            <div>
+                <input type="email" name="email"
+                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-96 block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
+                    placeholder="Email">
+            </div>
+
+            <div>
+                <input type="password" name="password"
+                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-96 block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
+                    placeholder="Password">
+            </div>
+
+            <div class="flex items-center justify-center" th:if="${error}">
+                <p class="text-red-400 font-medium text-sm" th:text="${error}"></p>
+            </div>
+
+            <button
+                class="bg-lime-400 w-96 p-4 rounded-lg text-purple-950 font-bold tracking-wider hover:bg-lime-200 transition-colors shadow-lg shadow-lime-400/20">
+                ENTRAR
+            </button>
+
+            <a href=""
+                class="block text-center font-semibold text-lime-400/80 text-sm underline underline-offset-4 hover:text-white transition-colors">
+                Crie sua conta
+            </a>
+        </div>
+    </form>
+</body>
+
+</html>
