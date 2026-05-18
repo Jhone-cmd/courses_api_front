@@ -23,6 +23,11 @@ public class UserController {
     @Autowired
     private LoginUserService loginUserService;
 
+    @GetMapping("/create")
+    public String create() {
+        return "modules/users/create";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "modules/users/login";
