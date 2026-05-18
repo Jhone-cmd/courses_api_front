@@ -7,13 +7,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.jhonecmd.courses_api_front.modules.users.dto.CreateUserDTO;
+import br.com.jhonecmd.courses_api_front.modules.users.services.CreateUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.LoginUserService;
+import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -21,11 +25,29 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 
     @Autowired
+    private CreateUserService createUserService;
+
+    @Autowired
     private LoginUserService loginUserService;
 
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("user", new CreateUserDTO());
         return "modules/users/create";
+    }
+
+    @PostMapping("/create")
+    public String save(CreateUserDTO userDTO, Model model) {
+
+        try {
+            createUserService.execute(userDTO);
+            return "redirect:/users/create";
+        } catch (HttpClientErrorException ex) {
+            model.addAttribute("error", FormatErrorMessage.formatErrorMessage(ex.getResponseBodyAsString()));
+            model.addAttribute("user", userDTO);
+            return "modules/users/create";
+        }
+
     }
 
     @GetMapping("/login")
@@ -37,7 +59,7 @@ public class UserController {
     public String singIn(RedirectAttributes redirectAttributes, HttpSession session, String email, String password) {
         try {
 
-            var token = loginUserService.login(email, password);
+            var token = loginUserService.execute(email, password);
             var grants = token.getPosition().stream()
                     .map(role -> new SimpleGrantedAuthority("ROLE_" +
                             role.toString().toUpperCase()))

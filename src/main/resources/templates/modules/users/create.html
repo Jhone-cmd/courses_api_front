@@ -9,7 +9,7 @@
 </head>
 
 <body class="bg-slate-900 h-screen items-center flex justify-center antialiased">
-    <form th:action="@{/users/create}" method="post" th:object="${user}">
+    <form th:action="@{/users/create}" method="post" th:object="${user}" id="registerForm">
         <div class="text-white font-extrabold text-6xl flex items-center italic mb-8 justify-center tracking-wide">
             <h1 class="bg-gradient-to-r from-purple-400 to-lime-400 bg-clip-text text-transparent">Courses API</h1>
         </div>
@@ -19,33 +19,34 @@
             <div>
                 <input type="text" name="name"
                     class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-96 block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Name">
+                    placeholder="Name" th:field="*{name}">
             </div>
 
             <div>
-                <input type="email" name="email"
+                <input type="text" name="email"
                     class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-96 block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Email">
+                    placeholder="Email" th:field="*{email}">
             </div>
 
             <div>
-                <input type="password" name="password"
+                <input type="password" name="password" id="password"
                     class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-96 block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Password">
+                    placeholder="Password" th:field="*{password}">
             </div>
 
             <div>
-                <input type="password" name="confirmPassword"
+                <input type="password" name="confirmPassword" id="confirmPassword"
                     class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-96 block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
                     placeholder="Confirm Password">
             </div>
 
             <div class="relative w-96">
 
-                <select name="role" id="role"
-                    class="w-full bg-white/30 backdrop-blur-md text-white text-sm rounded-lg block p-4 pr-12 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-white/20 appearance-none cursor-pointer transition-all placeholder-white">
+                <select th:field="*{position}"
+                    class="w-full bg-white/35 backdrop-blur-md text-white text-sm rounded-lg block p-4 pr-12 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-white/20 appearance-none cursor-pointer transition-all">
 
-                    <option value="" disabled selected class="text-gray-300 bg-slate-900">Selecione seu cargo</option>
+                    <option th:value="${null}" value="" selected class="text-gray-300 bg-slate-900">Selecione seu cargo
+                    </option>
                     <option value="Rector" class="text-white bg-slate-900">Reitor</option>
                     <option value="Director" class="text-white bg-slate-900">Diretor</option>
                     <option value="Coordinator" class="text-white bg-slate-900">Coordenador</option>
@@ -53,6 +54,7 @@
                     <option value="Student" class="text-white bg-slate-900">Estudante</option>
                 </select>
 
+                <!-- Ícone da Setinha -->
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-lime-400">
                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
@@ -60,11 +62,22 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-center" th:if="${error}">
-                <p class="text-red-400 font-medium text-sm" th:text="${error}"></p>
+            <div class="flex flex-col items-center justify-center space-y-2 max-w-96 mx-auto">
+
+                <!-- th:if do Thymeleaf com quebra de linha ativada -->
+                <p class="text-red-400 font-medium text-sm text-center whitespace-normal break-words w-full"
+                    th:if="${error}" th:text="${error}">
+                </p>
+
+                <!-- Erro do JavaScript com as mesmas propriedades de quebra de linha -->
+                <p class="text-red-400 font-medium text-sm text-center whitespace-normal break-words w-full"
+                    id="password_error" style="display: none;">
+                    As senhas não conferem
+                </p>
+
             </div>
 
-            <button
+            <button id="submitForm"
                 class="bg-lime-400 w-96 p-4 rounded-lg text-purple-950 font-bold tracking-wider hover:bg-lime-200 transition-colors shadow-lg shadow-lime-400/20">
                 CADASTRAR
             </button>
@@ -76,5 +89,21 @@
         </div>
     </form>
 </body>
+
+<script>
+
+    document.getElementById("registerForm").addEventListener("submit", (event) => {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const errorElement = document.getElementById("password_error");
+
+        errorElement.style.display = "none";
+
+        if (password !== confirmPassword) {
+            event.preventDefault();
+            errorElement.style.display = "block";
+        }
+    });
+</script>
 
 </html>
