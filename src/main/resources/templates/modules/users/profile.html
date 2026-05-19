@@ -10,8 +10,7 @@
 
 <body class="bg-slate-900 min-h-screen flex flex-col items-center justify-center p-6 antialiased">
 
-    <div class="w-full max-w-4xl bg-slate-800 rounded-xl shadow-xl overflow-hidden border border-slate-700">
-        <!-- Cabeçalho do Card -->
+    <div class="w-full max-w-5xl bg-slate-800 rounded-xl shadow-xl overflow-hidden border border-slate-700">
         <div class="px-6 py-4 bg-slate-850 border-b border-slate-700 flex justify-between items-center">
             <h2 class="text-xl font-semibold text-white">Perfis de Usuários</h2>
             <span
@@ -20,41 +19,39 @@
             </span>
         </div>
 
-        <!-- Tabela de Perfis -->
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+            <table class="w-full table-auto text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-750 text-slate-400 uppercase text-xs tracking-wider border-b border-slate-700">
-                        <th class="px-6 py-4 font-medium">ID</th>
+                        <th class="px-6 py-4 font-medium text-center w-16">ID</th>
                         <th class="px-6 py-4 font-medium">Nome</th>
                         <th class="px-6 py-4 font-medium">E-mail</th>
                         <th class="px-6 py-4 font-medium">Cargo</th>
-                        <th class="px-6 py-4 font-medium text-center">Ações</th>
+                        <th class="px-6 py-4 font-medium text-center w-40">Ações</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-700 text-slate-300 text-sm">
 
                     <tr th:each="user : ${users}" class="hover:bg-slate-750/50 transition-colors">
-                        <td class="px-6 py-4 font-mono text-slate-500" th:text="${user.id}"></td>
-                        <td class="px-6 py-4 font-medium text-white" th:text="${user.name}"></td>
-                        <td class="px-6 py-4" th:text="${user.email}"></td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 font-mono text-slate-500 text-center whitespace-nowrap"
+                            th:text="${user.id}"></td>
+                        <td class="px-6 py-4 font-medium text-white whitespace-nowrap" th:text="${user.name}"></td>
+                        <td class="px-6 py-4 whitespace-nowrap" th:text="${user.email}"></td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-2.5 py-1 text-xs font-medium bg-slate-700 text-slate-300 rounded"
                                 th:text="${user.position}">
-
                             </span>
                         </td>
-                        <td class="px-6 py-4 size-auto whitespace-nowrap text-center">
-                            <div class="flex justify-center space-x-2">
 
-                                <a th:href="@{/userss/editar/{id}(id=${users.id})}"
-                                    class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-md transition-colors shadow-sm">
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <div class="flex justify-center space-x-2">
+                                <a th:href="@{/users/deletar/{id}(id=${user.id})}"
+                                    class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-md transition-colors shadow-sm cursor-pointer">
                                     Editar
                                 </a>
-
-                                <a th:href="@{/userss/deletar/{id}(id=${users.id})}"
+                                <a th:href="@{/users/deletar/{id}(id=${user.id})}"
                                     onclick="return confirm('Tem certeza que deseja excluir este perfil?')"
-                                    class="px-3 py-1.5 text-xs font-medium text-white bg-red-600 hover:bg-red-500 rounded-md transition-colors shadow-sm">
+                                    class="px-3 py-1.5 text-xs font-medium text-white bg-red-600 hover:bg-red-500 rounded-md transition-colors shadow-sm cursor-pointer">
                                     Deletar
                                 </a>
                             </div>

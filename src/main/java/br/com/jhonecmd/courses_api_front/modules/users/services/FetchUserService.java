@@ -21,12 +21,13 @@ public class FetchUserService {
     @Value("${api.url}")
     private String apiUrl;
 
-    public UserResponseDTO execute(String token) {
+    public UserResponseDTO[] execute(String token) {
 
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
 
         HttpEntity<Map<String, String>> request = new HttpEntity<>(headers);
 
@@ -34,8 +35,7 @@ public class FetchUserService {
 
         try {
             var result = restTemplate.exchange(url, HttpMethod.GET, request,
-                    UserResponseDTO.class);
-            System.out.println(result.getBody());
+                    UserResponseDTO[].class);
             return result.getBody();
         } catch (Unauthorized ex) {
             throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);

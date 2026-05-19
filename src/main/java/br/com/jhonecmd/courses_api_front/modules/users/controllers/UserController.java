@@ -92,12 +92,18 @@ public class UserController {
     @GetMapping("/profile")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
     public String profile(Model model) {
-        var result = fetchUserService.execute(getToken());
-        System.out.println(result);
 
-        model.addAttribute("users", result);
+        try {
 
-        return "modules/users/profile";
+            var result = fetchUserService.execute(getToken());
+            model.addAttribute("users", result);
+            return "modules/users/profile";
+
+        } catch (HttpClientErrorException ex) {
+            ex.printStackTrace();
+            return "redirect:/users/login";
+        }
+
     }
 
     private String getToken() {
