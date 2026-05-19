@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.jhonecmd.courses_api_front.modules.users.dto.CreateUserDTO;
 import br.com.jhonecmd.courses_api_front.modules.users.services.CreateUserService;
+import br.com.jhonecmd.courses_api_front.modules.users.services.FetchUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.LoginUserService;
 import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 import jakarta.servlet.http.HttpSession;
@@ -29,6 +31,9 @@ public class UserController {
 
     @Autowired
     private LoginUserService loginUserService;
+
+    @Autowired
+    private FetchUserService fetchUserService;
 
     @GetMapping("/create")
     public String create(Model model) {
@@ -86,8 +91,18 @@ public class UserController {
 
     @GetMapping("/profile")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
-    public String profile() {
+    public String profile(Model model) {
+        var result = fetchUserService.execute(getToken());
+        System.out.println(result);
+
+        model.addAttribute("users", result);
+
         return "modules/users/profile";
+    }
+
+    private String getToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getDetails().toString();
     }
 
 }

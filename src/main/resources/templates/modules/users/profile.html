@@ -35,13 +35,13 @@
                 <tbody class="divide-y divide-slate-700 text-slate-300 text-sm">
 
                     <tr th:each="user : ${users}" class="hover:bg-slate-750/50 transition-colors">
-                        <td class="px-6 py-4 font-mono text-slate-500" th:text="${user.id}">1</td>
-                        <td class="px-6 py-4 font-medium text-white" th:text="${user.nome}">João Silva</td>
-                        <td class="px-6 py-4" th:text="${user.email}">joao@email.com</td>
+                        <td class="px-6 py-4 font-mono text-slate-500" th:text="${user.id}"></td>
+                        <td class="px-6 py-4 font-medium text-white" th:text="${user.name}"></td>
+                        <td class="px-6 py-4" th:text="${user.email}"></td>
                         <td class="px-6 py-4">
                             <span class="px-2.5 py-1 text-xs font-medium bg-slate-700 text-slate-300 rounded"
-                                th:text="${user.cargo}">
-                                Reitor
+                                th:text="${user.position}">
+
                             </span>
                         </td>
                         <td class="px-6 py-4 size-auto whitespace-nowrap text-center">

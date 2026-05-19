@@ -34,8 +34,6 @@ public class LoginUserService {
         var url = apiUrl.concat("/users/auth");
 
         var result = restTemplate.postForObject(url, request, Token.class);
-
-        System.out.println(result);
         return result;
     }
 }
