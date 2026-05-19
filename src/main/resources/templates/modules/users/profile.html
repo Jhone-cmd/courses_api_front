@@ -1,15 +1,76 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Perfil</title>
+    <title>Perfil do Usuário</title>
 </head>
 
-<body class="bg-slate-900 h-screen items-center flex justify-center antialiased">
-    <p class="text-white">Profile</p>
+<body class="bg-slate-900 min-h-screen flex flex-col items-center justify-center p-6 antialiased">
+
+    <div class="w-full max-w-4xl bg-slate-800 rounded-xl shadow-xl overflow-hidden border border-slate-700">
+        <!-- Cabeçalho do Card -->
+        <div class="px-6 py-4 bg-slate-850 border-b border-slate-700 flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-white">Perfis de Usuários</h2>
+            <span
+                class="px-3 py-1 text-xs font-medium text-blue-400 bg-blue-900/30 rounded-full border border-blue-800/50">
+                Gerenciamento
+            </span>
+        </div>
+
+        <!-- Tabela de Perfis -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-750 text-slate-400 uppercase text-xs tracking-wider border-b border-slate-700">
+                        <th class="px-6 py-4 font-medium">ID</th>
+                        <th class="px-6 py-4 font-medium">Nome</th>
+                        <th class="px-6 py-4 font-medium">E-mail</th>
+                        <th class="px-6 py-4 font-medium">Cargo</th>
+                        <th class="px-6 py-4 font-medium text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-700 text-slate-300 text-sm">
+
+                    <tr th:each="user : ${users}" class="hover:bg-slate-750/50 transition-colors">
+                        <td class="px-6 py-4 font-mono text-slate-500" th:text="${user.id}">1</td>
+                        <td class="px-6 py-4 font-medium text-white" th:text="${user.nome}">João Silva</td>
+                        <td class="px-6 py-4" th:text="${user.email}">joao@email.com</td>
+                        <td class="px-6 py-4">
+                            <span class="px-2.5 py-1 text-xs font-medium bg-slate-700 text-slate-300 rounded"
+                                th:text="${user.cargo}">
+                                Reitor
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 size-auto whitespace-nowrap text-center">
+                            <div class="flex justify-center space-x-2">
+
+                                <a th:href="@{/userss/editar/{id}(id=${users.id})}"
+                                    class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-md transition-colors shadow-sm">
+                                    Editar
+                                </a>
+
+                                <a th:href="@{/userss/deletar/{id}(id=${users.id})}"
+                                    onclick="return confirm('Tem certeza que deseja excluir este perfil?')"
+                                    class="px-3 py-1.5 text-xs font-medium text-white bg-red-600 hover:bg-red-500 rounded-md transition-colors shadow-sm">
+                                    Deletar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(users)}">
+                        <td colspan="5" class="px-6 py-10 text-center text-slate-500 italic">
+                            Nenhum usuário encontrado.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </body>
 
 </html>
