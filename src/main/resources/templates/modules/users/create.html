@@ -9,16 +9,14 @@
 </head>
 
 <body class="bg-slate-900 min-h-screen items-center flex justify-center p-4 md:p-6 overflow-y-auto antialiased">
-    <!-- max-w-md impede que o formulário estique infinitamente em telas grandes -->
+
     <form th:action="@{/users/create}" method="post" th:object="${user}" id="registerForm" class="w-full max-w-md">
 
-        <!-- Título com tamanho de fonte responsivo (text-4xl no mobile, text-6xl no desktop) -->
         <div
             class="text-white font-extrabold text-4xl sm:text-6xl flex items-center italic mb-8 justify-center tracking-wide">
             <h1 class="bg-gradient-to-r from-purple-400 to-lime-400 bg-clip-text text-transparent">Courses API</h1>
         </div>
 
-        <!-- Padding adaptável (p-6 em celulares, p-12 em telas maiores) -->
         <div
             class="space-y-6 bg-purple-900/30 border border-purple-500/20 backdrop-blur-md rounded-2xl p-6 sm:p-12 shadow-2xl w-full">
 
@@ -60,7 +58,6 @@
                     <option value="Student" class="text-white bg-slate-900">Estudante</option>
                 </select>
 
-                <!-- Ícone da Setinha -->
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-lime-400">
                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
@@ -70,12 +67,10 @@
 
             <div class="flex flex-col items-center justify-center space-y-2 w-full mx-auto">
 
-                <!-- th:if do Thymeleaf com quebra de linha ativada -->
                 <p class="text-red-400 font-medium text-sm text-center whitespace-normal break-words w-full"
                     th:if="${error}" th:text="${error}">
                 </p>
 
-                <!-- Erro do JavaScript com as mesmas propriedades de quebra de linha -->
                 <p class="text-red-400 font-medium text-sm text-center whitespace-normal break-words w-full"
                     id="password_error" style="display: none;">
                     As senhas não conferem

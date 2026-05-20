@@ -8,23 +8,24 @@
     <title>Login</title>
 </head>
 
-<body class="bg-slate-900 h-screen items-center flex justify-center antialiased">
-    <form th:action="@{/users/signIn}" method="post">
-        <div class="text-white font-extrabold text-6xl flex items-center italic mb-8 justify-center tracking-wide">
+<body class="bg-slate-900 h-screen items-center flex justify-center antialiased px-4">
+    <form th:action="@{/users/signIn}" method="post" class="w-full max-w-md">
+        <div
+            class="text-white font-extrabold text-5xl md:text-6xl flex items-center italic mb-8 justify-center tracking-wide text-center">
             <h1 class="bg-gradient-to-r from-purple-400 to-lime-400 bg-clip-text text-transparent">Courses API</h1>
         </div>
         <div
-            class="space-y-6 bg-purple-900/30 border border-purple-500/20 backdrop-blur-md rounded-2xl p-16 shadow-2xl">
+            class="space-y-6 bg-purple-900/30 border border-purple-500/20 backdrop-blur-md rounded-2xl p-8 sm:p-16 shadow-2xl">
 
             <div>
                 <input type="email" name="email"
-                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-96 block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
+                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
                     placeholder="Email">
             </div>
 
             <div>
                 <input type="password" name="password"
-                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-96 block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
+                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
                     placeholder="Password">
             </div>
 
@@ -33,7 +34,7 @@
             </div>
 
             <button
-                class="bg-lime-400 w-96 p-4 rounded-lg text-purple-950 font-bold tracking-wider hover:bg-lime-200 transition-colors shadow-lg shadow-lime-400/20">
+                class="bg-lime-400 w-full p-4 rounded-lg text-purple-950 font-bold tracking-wider hover:bg-lime-200 transition-colors shadow-lg shadow-lime-400/20">
                 ENTRAR
             </button>
 
