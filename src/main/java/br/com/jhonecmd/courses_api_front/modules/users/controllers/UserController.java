@@ -79,7 +79,7 @@ public class UserController {
             session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
             session.setAttribute("token", token);
 
-            return "redirect:/users/profile";
+            return "redirect:/users/me";
 
         } catch (HttpClientErrorException ex) {
 
@@ -89,15 +89,23 @@ public class UserController {
 
     }
 
-    @GetMapping("/profile")
-    @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('RECTOR')")
+    public String me() {
+
+        return "modules/users/me";
+
+    }
+
+    @GetMapping("/profiles")
+    @PreAuthorize("hasRole('RECTOR')")
     public String profile(Model model) {
 
         try {
 
             var result = fetchUserService.execute(getToken());
             model.addAttribute("users", result);
-            return "modules/users/profile";
+            return "modules/users/profiles";
 
         } catch (HttpClientErrorException ex) {
             ex.printStackTrace();

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Perfil</title>
+</head>
+
+<body class="bg-slate-900 min-h-screen flex flex-col items-center justify-center p-6 antialiased">
+
+    <div class="w-full max-w-3xl bg-slate-800 rounded-xl shadow-xl overflow-hidden border border-slate-700">
+
+        <div class="px-6 py-4 bg-slate-850 border-b border-slate-700 flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-white">Meu Perfil</h2>
+            <span
+                class="px-3 py-1 text-xs font-medium text-emerald-400 bg-emerald-900/30 rounded-full border border-emerald-800/50">
+                Sessão Ativa
+            </span>
+        </div>
+
+        <div class="p-8">
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+
+                <div class="flex-shrink-0">
+                    <div
+                        class="w-24 h-24 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-600">
+
+                        <span class="text-3xl font-bold text-white tracking-wider">
+                            US
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex-grow w-full space-y-6">
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Nome
+                                Completo</label>
+                            <div
+                                class="px-4 py-2.5 bg-slate-750/50 border border-slate-700 rounded-lg text-white font-medium">
+                                Nome do Usuário
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">E-mail</label>
+                            <div
+                                class="px-4 py-2.5 bg-slate-750/50 border border-slate-700 rounded-lg text-white font-medium">
+                                usuario@email.com
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Cargo /
+                                Função</label>
+                            <div
+                                class="inline-flex items-center px-4 py-2.5 bg-slate-750/50 border border-slate-700 rounded-lg text-blue-400 font-medium w-full">
+                                <span>Desenvolvedor</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">ID
+                                da Conta</label>
+                            <div
+                                class="px-4 py-2.5 bg-slate-750/50 border border-slate-700 rounded-lg text-slate-400 font-mono text-xs">
+                                #12345
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr class="border-slate-700 my-6">
+
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-2">
+
+                        <a
+                            class="text-sm font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
+                            ← Lista de Usuários
+                        </a>
+
+                        <div class="flex space-x-3 w-full sm:w-auto justify-end">
+                            <a
+                                class="w-full sm:w-auto text-center px-5 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors shadow-sm cursor-pointer">
+                                Editar Dados
+                            </a>
+                            <a
+                                class="w-full sm:w-auto text-center px-5 py-2 text-sm font-medium text-red-400 bg-red-950/30 hover:bg-red-900/40 border border-red-900/50 rounded-lg transition-colors cursor-pointer">
+                                Sair da Conta
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
