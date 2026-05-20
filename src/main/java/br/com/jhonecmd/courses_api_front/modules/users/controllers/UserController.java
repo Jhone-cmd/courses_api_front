@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.jhonecmd.courses_api_front.modules.users.dto.CreateUserDTO;
 import br.com.jhonecmd.courses_api_front.modules.users.services.CreateUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.FetchUserService;
+import br.com.jhonecmd.courses_api_front.modules.users.services.GetByUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.LoginUserService;
 import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +32,9 @@ public class UserController {
 
     @Autowired
     private LoginUserService loginUserService;
+
+    @Autowired
+    private GetByUserService getByUserService;
 
     @Autowired
     private FetchUserService fetchUserService;
@@ -90,10 +94,18 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    @PreAuthorize("hasRole('RECTOR')")
-    public String me() {
+    public String me(Model model) {
 
-        return "modules/users/me";
+        try {
+
+            var result = getByUserService.execute(getToken());
+            model.addAttribute("userLogged", result);
+            return "modules/users/me";
+
+        } catch (HttpClientErrorException ex) {
+            ex.printStackTrace();
+            return "redirect:/users/login";
+        }
 
     }
 
