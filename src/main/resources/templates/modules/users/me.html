@@ -10,10 +10,8 @@
 
 <body class="bg-slate-900 min-h-screen flex flex-col items-center justify-center p-6 antialiased">
 
-    <!-- Container Principal com largura adaptável (max-w-4xl para dar mais margem a dados longos) -->
     <div class="w-full max-w-4xl bg-slate-800 rounded-xl shadow-xl overflow-hidden border border-slate-700">
 
-        <!-- Cabeçalho do Card -->
         <div class="px-6 py-4 bg-slate-850 border-b border-slate-700 flex justify-between items-center">
             <h2 class="text-xl font-semibold text-white">Meu Perfil</h2>
             <span
@@ -22,11 +20,9 @@
             </span>
         </div>
 
-        <!-- Conteúdo do Perfil -->
         <div class="p-8">
             <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
 
-                <!-- Avatar / Foto de Perfil -->
                 <div class="flex-shrink-0">
                     <div
                         class="w-24 h-24 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-600">
@@ -37,50 +33,40 @@
                     </div>
                 </div>
 
-                <!-- Informações do Usuário -->
                 <div class="flex-grow w-full space-y-6">
 
-                    <!-- Grid de Dados Dinâmico (Auto-cols garante que o tamanho se ajuste ao conteúdo se necessário) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        <!-- Nome -->
                         <div class="w-full">
                             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Nome
                                 Completo</label>
                             <div class="px-4 py-2.5 bg-slate-750/50 border border-slate-700 rounded-lg text-white font-medium break-all md:whitespace-nowrap inline-block min-w-full"
                                 th:text="${userLogged.name}">
-                                Nome do Usuário
                             </div>
                         </div>
 
-                        <!-- E-mail -->
                         <div class="w-full">
                             <label
                                 class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">E-mail</label>
                             <div class="px-4 py-2.5 bg-slate-750/50 border border-slate-700 rounded-lg text-white font-medium break-all md:whitespace-nowrap inline-block min-w-full"
                                 th:text="${userLogged.email}">
-                                usuario@email.com
                             </div>
                         </div>
 
-                        <!-- Cargo (Forçado para UPPERCASE) -->
                         <div class="w-full">
                             <label
                                 class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Cargo /
                                 Função</label>
                             <div class="px-4 py-2.5 bg-slate-750/50 border border-slate-700 rounded-lg text-blue-400 font-bold uppercase tracking-wide inline-block min-w-full"
                                 th:text="${#strings.toUpperCase(userLogged.position)}">
-                                DESENVOLVEDOR
                             </div>
                         </div>
 
-                        <!-- ID da Conta -->
                         <div class="w-full">
                             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">ID
                                 da Conta</label>
                             <div class="px-4 py-2.5 bg-slate-750/50 border border-slate-700 rounded-lg text-slate-400 font-mono text-xs inline-block min-w-full"
                                 th:text="${userLogged.id}">
-                                #12345
                             </div>
                         </div>
 
@@ -88,7 +74,6 @@
 
                     <hr class="border-slate-700 my-6">
 
-                    <!-- Ações da Conta -->
                     <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-2">
 
                         <a th:href="@{/users/profiles}"
@@ -101,7 +86,7 @@
                                 class="w-full sm:w-auto text-center px-5 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors shadow-sm cursor-pointer">
                                 Editar Dados
                             </a>
-                            <a th:href="@{/logout}"
+                            <a th:href="@{/users/logout}"
                                 class="w-full sm:w-auto text-center px-5 py-2 text-sm font-medium text-red-400 bg-red-950/30 hover:bg-red-900/40 border border-red-900/50 rounded-lg transition-colors cursor-pointer">
                                 Sair da Conta
                             </a>

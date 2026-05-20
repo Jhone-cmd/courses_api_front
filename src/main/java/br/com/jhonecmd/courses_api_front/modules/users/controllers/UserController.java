@@ -126,6 +126,17 @@ public class UserController {
 
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+
+        SecurityContextHolder.getContext().setAuthentication(null);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+        session.setAttribute("token", null);
+
+        return "redirect:/users/login";
+    }
+
     private String getToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getDetails().toString();
