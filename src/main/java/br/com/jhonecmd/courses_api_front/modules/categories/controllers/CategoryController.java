@@ -19,7 +19,7 @@ public class CategoryController {
     @Autowired
     private FetchCategoriesService fetchCategoriesService;
 
-    @GetMapping()
+    @GetMapping("")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
     public String listCategories(Model model) {
 
@@ -33,6 +33,12 @@ public class CategoryController {
             return "modules/users/login";
         }
 
+    }
+
+    @GetMapping("/create")
+    @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
+    public String create(Model model) {
+        return "modules/categories/create";
     }
 
     private String getToken() {
