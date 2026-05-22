@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Categorias</title>
+
+</head>
+
+<body class="bg-slate-900 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 antialiased">
+    <div class="w-full max-w-5xl bg-slate-800 rounded-xl shadow-xl overflow-hidden border border-slate-700">
+        <div class="px-4 py-4 sm:px-6 bg-slate-850 border-b border-slate-700 flex justify-between items-center">
+            <h2 class="text-lg sm:text-xl font-semibold text-white">Categorias</h2>
+
+            <button
+                class="px-3 py-1 text-sm font-semibold text-blue-400 bg-blue-900/30 rounded-full border border-blue-700/50">
+                CRIAR</button>
+            </button>
+            <span
+                class="px-3 py-1 text-xs font-medium text-blue-400 bg-blue-900/30 rounded-full border border-blue-800/50">
+                Gerenciamento
+            </span>
+
+        </div>
+        <div class="w-full">
+            <table class="w-full table-auto text-left border-collapse">
+                <thead class="hidden md:table-header-group">
+                    <tr class="bg-slate-750 text-slate-400 uppercase text-xs tracking-wider border-b border-slate-700">
+                        <th class="px-6 py-4 font-medium text-center w-20">ID</th>
+                        <th class="px-6 py-4 font-medium text-center">Nome</th>
+                        <th class="px-6 py-4 font-medium text-center">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-slate-700 text-slate-300 text-sm block md:table-row-group">
+
+                    <tr
+                        class="hover:bg-slate-750/50 transition-colors block md:table-row p-4 sm:p-5 md:p-0 border-b border-slate-700 md:border-b-0 space-y-2.5 md:space-y-0">
+
+                        <td
+                            class="flex justify-between items-center md:table-cell px-0 md:px-6 py-0 md:py-4 font-mono text-slate-400 md:text-slate-500 md:text-center whitespace-nowrap before:content-['ID:'] before:font-sans before:text-slate-500 before:font-medium md:before:content-none">
+
+                            <span>id</span>
+
+                        </td>
+
+                        <td
+                            class="flex justify-between items-center text-center md:table-cell px-0 md:px-6 py-0 md:py-4 font-medium text-white whitespace-nowrap before:content-['Nome:'] before:text-slate-500 before:font-medium md:before:content-none">
+                            <span>name</span>
+
+                        </td>
+
+                        <td
+                            class="flex justify-between items-center md:table-cell px-0 md:px-6 py-1.5 md:py-4 whitespace-nowrap md:text-center before:content-['Ações:'] before:text-slate-500 before:font-medium md:before:content-none">
+
+                            <div class="flex justify-end md:justify-center space-x-2 w-auto">
+                                <a
+                                    class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-md transition-colors shadow-sm cursor-pointer flex-1 md:flex-none text-center">
+                                    Editar
+                                </a>
+
+                                <a onclick="return confirm('Tem certeza que deseja excluir este perfil?')"
+                                    class="px-3 py-1.5 text-xs font-medium text-white bg-red-600 hover:bg-red-500 rounded-md transition-colors shadow-sm cursor-pointer flex-1 md:flex-none text-center">
+                                    Deletar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="block md:table-row">
+                        <td colspan="5" class="px-6 py-10 text-center text-slate-500 italic block md:table-cell">
+                            Nenhuma categoria encontrada.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

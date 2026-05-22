@@ -24,7 +24,7 @@ import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
