@@ -83,7 +83,7 @@ public class UserController {
             session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
             session.setAttribute("token", token);
 
-            return "redirect:/users/me";
+            return "redirect:/categories";
 
         } catch (HttpClientErrorException ex) {
 
