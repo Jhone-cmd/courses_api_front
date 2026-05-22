@@ -2,7 +2,9 @@ package br.com.jhonecmd.courses_api_front.modules.categories.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,13 +33,15 @@ public class CategoryController {
     public String listCategories(Model model) {
 
         try {
+
             var result = fetchCategoriesService.execute(getToken());
-            System.out.println(result);
+            authenticated();
             model.addAttribute("categories", result);
             return "modules/categories/categories";
         } catch (HttpClientErrorException ex) {
             ex.printStackTrace();
-            return "modules/users/login";
+            SecurityContextHolder.clearContext();
+            return "redirect:/users/login";
         }
 
     }
@@ -67,6 +71,16 @@ public class CategoryController {
     private String getToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getDetails().toString();
+    }
+
+    private void authenticated() {
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                "user",
+                null,
+                AuthorityUtils.createAuthorityList("ROLE_RECTOR", "ROLE_DIRECTOR"));
+
+        auth.setDetails(getToken());
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
 }
