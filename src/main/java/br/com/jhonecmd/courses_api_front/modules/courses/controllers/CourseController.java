@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 
+import br.com.jhonecmd.courses_api_front.modules.categories.services.FetchCategoriesService;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.FetchCoursesService;
 
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
+
+    @Autowired
+    private FetchCategoriesService fetchCategoriesService;
 
     @Autowired
     private FetchCoursesService fetchCoursesService;
@@ -35,6 +39,16 @@ public class CourseController {
             SecurityContextHolder.clearContext();
             return "redirect:/users/login";
         }
+    }
+
+    @GetMapping("/create")
+    @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
+    public String create(Model model) {
+
+        var result = fetchCategoriesService.execute(getToken());
+        authenticated();
+        model.addAttribute("categories", result);
+        return "modules/courses/create";
     }
 
     private String getToken() {
