@@ -10,7 +10,7 @@
 
 <body class="bg-slate-900 min-h-screen items-center flex justify-center p-4 md:p-6 overflow-y-auto antialiased">
 
-    <form th:action="@{/courses/create}" method="post" class="w-full max-w-md">
+    <form th:action="@{/courses/create}" method="post" th:object="${course}" class="w-full max-w-md">
 
         <div
             class="text-white font-extrabold text-4xl sm:text-6xl flex items-center italic mb-8 justify-center tracking-wide">
@@ -23,17 +23,23 @@
             <div>
                 <input type="text" name="name"
                     class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Name">
+                    placeholder="Name" th:field="*{name}">
             </div>
 
             <div>
-                <input type="text" name="description"
+                <input type="text" name="teacher"
                     class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Description">
+                    placeholder="Teacher" th:field="*{teacherName}">
+            </div>
+
+            <div>
+                <textarea name="description" cols="10" rows="3" placeholder="Description" th:field="*{description}"
+                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"></textarea>
+
             </div>
 
             <div class="relative w-full">
-                <select name="categoryId"
+                <select th:field="*{categoryId}"
                     class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 pr-12 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30 appearance-none cursor-pointer">
 
                     <option value="" class="bg-purple-900 text-white">Selecione uma categoria</option>

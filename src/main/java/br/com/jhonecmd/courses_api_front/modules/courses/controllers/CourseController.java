@@ -9,11 +9,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 
 import br.com.jhonecmd.courses_api_front.modules.categories.services.FetchCategoriesService;
+import br.com.jhonecmd.courses_api_front.modules.courses.dto.CreateCourseDTO;
+import br.com.jhonecmd.courses_api_front.modules.courses.services.CreateCourseService;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.FetchCoursesService;
+import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 
 @Controller
 @RequestMapping("/courses")
@@ -24,6 +28,9 @@ public class CourseController {
 
     @Autowired
     private FetchCoursesService fetchCoursesService;
+
+    @Autowired
+    private CreateCourseService createCourseService;
 
     @GetMapping("")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
@@ -48,7 +55,23 @@ public class CourseController {
         var result = fetchCategoriesService.execute(getToken());
         authenticated();
         model.addAttribute("categories", result);
+        model.addAttribute("course", new CreateCourseDTO());
         return "modules/courses/create";
+    }
+
+    @PostMapping("/create")
+    @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
+    public String save(CreateCourseDTO courseDTO, Model model) {
+
+        try {
+            createCourseService.execute(getToken(), courseDTO);
+            return "redirect:/courses";
+        } catch (HttpClientErrorException ex) {
+            model.addAttribute("error", FormatErrorMessage.formatErrorMessage(ex.getResponseBodyAsString()));
+            model.addAttribute("course", courseDTO);
+            return "modules/categories/create";
+        }
+
     }
 
     private String getToken() {
