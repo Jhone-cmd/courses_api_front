@@ -26,7 +26,7 @@
         <div th:if="${not #lists.isEmpty(courses)}" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <div th:each="course : ${courses}"
-                class="bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col h-full hover:border-slate-500 transition-colors shadow-sm">
+                class="bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col h-full hover:border-slate-500 transition-colors shadow-sm cursor-pointer">
 
                 <div class="flex justify-between items-start mb-4">
                     <span
@@ -48,15 +48,20 @@
 
                 <div sec:authorize="hasAnyRole('RECTOR', 'DIRECTOR', 'COORDINATOR')"
                     class="flex gap-3 pt-4 border-t border-slate-700 mt-auto">
+
                     <a th:href="@{/courses/editar/{id}(id=${course.id})}"
                         class="flex-1 text-center py-2 text-xs font-semibold bg-slate-700 hover:bg-slate-600 text-white rounded-md transition-colors">
                         Editar
                     </a>
-                    <a onclick="return confirm('Deseja excluir este curso?')"
-                        th:href="@{/courses/deletar/{id}(id=${course.id})}"
-                        class="flex-1 text-center py-2 text-xs font-semibold bg-rose-600/10 hover:bg-rose-600 text-rose-500 hover:text-white rounded-md transition-colors border border-rose-600/20">
-                        Excluir
-                    </a>
+
+                    <form th:action="@{/courses/delete/{id}(id=${course.id})}" th:method="delete"
+                        onsubmit="return confirm('Deseja excluir este curso?')" class="flex-1 m-0">
+
+                        <button type="submit"
+                            class="w-full text-center py-2 text-xs font-semibold bg-rose-600/10 hover:bg-rose-600 text-rose-500 hover:text-white rounded-md transition-colors border border-rose-600/20 cursor-pointer">
+                            Excluir
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

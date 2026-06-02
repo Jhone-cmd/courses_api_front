@@ -1,4 +1,4 @@
-package br.com.jhonecmd.courses_api_front.modules.categories.services;
+package br.com.jhonecmd.courses_api_front.modules.courses.services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class DeleteCategoryService {
+public class DeleteCourseService {
 
     @Value("${api.url}")
     private String apiUrl;
 
-    public void execute(String token, String categoryId) {
+    public void execute(String token, String courseId) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -24,13 +24,13 @@ public class DeleteCategoryService {
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
-        var url = apiUrl.concat("/categories/{id}");
+        var url = apiUrl.concat("/courses/{id}");
 
         restTemplate.exchange(
                 url,
                 HttpMethod.DELETE,
                 request,
                 Void.class,
-                categoryId);
+                courseId);
     }
 }
