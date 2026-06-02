@@ -56,19 +56,25 @@
                                 th:text="${user.position}">
                             </span>
                         </td>
-
                         <td
                             class="flex justify-between items-center md:table-cell px-0 md:px-6 py-1.5 md:py-4 whitespace-nowrap md:text-center before:content-['Ações:'] before:text-slate-500 before:font-medium md:before:content-none">
-                            <div class="flex justify-end md:justify-center space-x-2 w-auto">
-                                <a th:href="@{/users/deletar/{id}(id=${user.id})}"
+                            <div class="flex justify-end md:justify-center items-center space-x-2 w-auto">
+
+                                <a th:href="@{/users/editar/{id}(id=${user.id})}"
                                     class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-md transition-colors shadow-sm cursor-pointer flex-1 md:flex-none text-center">
                                     Editar
                                 </a>
-                                <a th:href="@{/users/deletar/{id}(id=${user.id})}"
-                                    onclick="return confirm('Tem certeza que deseja excluir este perfil?')"
-                                    class="px-3 py-1.5 text-xs font-medium text-white bg-red-600 hover:bg-red-500 rounded-md transition-colors shadow-sm cursor-pointer flex-1 md:flex-none text-center">
-                                    Deletar
-                                </a>
+
+                                <form th:action="@{/users/delete/{id}(id=${user.id})}" th:method="delete"
+                                    onsubmit="return confirm('Tem certeza que deseja excluir este perfil?')"
+                                    class="inline-block flex-1 md:flex-none m-0">
+
+                                    <button type="submit"
+                                        class="w-full px-3 py-1.5 text-xs font-medium text-white bg-red-600 hover:bg-red-500 rounded-md transition-colors shadow-sm cursor-pointer text-center">
+                                        Deletar
+                                    </button>
+                                </form>
+
                             </div>
                         </td>
                     </tr>
