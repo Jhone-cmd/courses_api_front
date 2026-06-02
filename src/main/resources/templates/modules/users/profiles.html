@@ -21,24 +21,18 @@
 
         <div class="w-full">
             <table class="w-full table-auto text-left border-collapse">
-                <thead class="hidden md:table-header-group">
+                <thead class="hidden md:table-header-group text-center">
                     <tr class="bg-slate-750 text-slate-400 uppercase text-xs tracking-wider border-b border-slate-700">
-                        <th class="px-6 py-4 font-medium text-center w-16">ID</th>
                         <th class="px-6 py-4 font-medium">Nome</th>
                         <th class="px-6 py-4 font-medium">E-mail</th>
                         <th class="px-6 py-4 font-medium">Cargo</th>
                         <th class="px-6 py-4 font-medium text-center w-40">Ações</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-700 text-slate-300 text-sm block md:table-row-group">
+                <tbody class="divide-y divide-slate-700 text-center text-sm block md:table-row-group">
 
                     <tr th:each="user : ${users}"
                         class="hover:bg-slate-750/50 transition-colors block md:table-row p-4 sm:p-5 md:p-0 border-b border-slate-700 md:border-b-0 space-y-2.5 md:space-y-0">
-
-                        <td
-                            class="flex justify-between items-center md:table-cell px-0 md:px-6 py-0 md:py-4 font-mono text-slate-400 md:text-slate-500 md:text-center whitespace-nowrap before:content-['ID:'] before:font-sans before:text-slate-500 before:font-medium md:before:content-none">
-                            <span th:text="${user.id}"></span>
-                        </td>
 
                         <td
                             class="flex justify-between items-center md:table-cell px-0 md:px-6 py-0 md:py-4 font-medium text-white whitespace-nowrap before:content-['Nome:'] before:text-slate-500 before:font-medium md:before:content-none">

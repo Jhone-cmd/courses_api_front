@@ -8,13 +8,16 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 
 import br.com.jhonecmd.courses_api_front.modules.categories.dto.CreateCategoryDTO;
 import br.com.jhonecmd.courses_api_front.modules.categories.services.CreateCategoryService;
+import br.com.jhonecmd.courses_api_front.modules.categories.services.DeleteCategoryService;
 import br.com.jhonecmd.courses_api_front.modules.categories.services.FetchCategoriesService;
 import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 
@@ -27,6 +30,9 @@ public class CategoryController {
 
     @Autowired
     private CreateCategoryService createCategoryService;
+
+    @Autowired
+    private DeleteCategoryService deleteCategoryService;
 
     @GetMapping("")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
@@ -66,6 +72,14 @@ public class CategoryController {
             return "modules/categories/create";
         }
 
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
+    public String delete(@PathVariable("id") String categoryId) {
+
+        deleteCategoryService.execute(getToken(), categoryId);
+        return "redirect:/categories";
     }
 
     private String getToken() {
