@@ -3,14 +3,15 @@ package br.com.jhonecmd.courses_api_front.modules.users.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +19,13 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.jhonecmd.courses_api_front.modules.users.dto.CreateUserDTO;
+import br.com.jhonecmd.courses_api_front.modules.users.dto.UpdateUserDTO;
 import br.com.jhonecmd.courses_api_front.modules.users.services.CreateUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.DeleteUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.FetchUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.GetByUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.LoginUserService;
+import br.com.jhonecmd.courses_api_front.modules.users.services.UpdateUserService;
 import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 import jakarta.servlet.http.HttpSession;
 
@@ -41,6 +44,9 @@ public class UserController {
 
     @Autowired
     private FetchUserService fetchUserService;
+
+    @Autowired
+    private UpdateUserService updateUserService;
 
     @Autowired
     private DeleteUserService deleteUserService;
@@ -133,9 +139,17 @@ public class UserController {
     }
 
     @GetMapping("/editar/{id}")
-    @PreAuthorize("hasRole('RECTOR')")
-    public String update(@PathVariable("id") String userId) {
+    public String update(Model model) {
+
+        model.addAttribute("user", getByUserService.execute(getToken()));
         return "modules/users/update";
+    }
+
+    @PostMapping("/editar/{id}")
+    public String saveUpdate(@PathVariable("id") String userId, @ModelAttribute("user") UpdateUserDTO updateUserDTO) {
+
+        updateUserService.execute(getToken(), userId, updateUserDTO);
+        return "redirect:/users/me";
     }
 
     @DeleteMapping("/delete/{id}")
