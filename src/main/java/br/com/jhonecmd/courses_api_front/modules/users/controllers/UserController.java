@@ -132,6 +132,12 @@ public class UserController {
 
     }
 
+    @GetMapping("/editar/{id}")
+    @PreAuthorize("hasRole('RECTOR')")
+    public String update(@PathVariable("id") String userId) {
+        return "modules/users/update";
+    }
+
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('RECTOR')")
     public String delete(@PathVariable("id") String userId) {
