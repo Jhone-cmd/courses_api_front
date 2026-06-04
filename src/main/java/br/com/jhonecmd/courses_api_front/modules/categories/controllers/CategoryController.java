@@ -74,6 +74,13 @@ public class CategoryController {
 
     }
 
+    @GetMapping("/editar/{id}")
+    @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
+    public String update() {
+
+        return "modules/categories/update";
+    }
+
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
     public String delete(@PathVariable("id") String categoryId) {
