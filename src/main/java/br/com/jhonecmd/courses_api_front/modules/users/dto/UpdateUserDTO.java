@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class UpdateUserDTO {
-
     private String id;
     private String name;
     private String email;

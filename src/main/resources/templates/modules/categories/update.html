@@ -10,7 +10,8 @@
 
 <body class="bg-slate-900 min-h-screen items-center flex justify-center p-4 md:p-6 overflow-y-auto antialiased">
 
-    <form method="post" class="w-full max-w-md">
+    <form th:action="@{/categories/editar/{id}(id=*{id})}" method="post" th:object="${category}"
+        class="w-full max-w-md">
 
         <div
             class="text-white text-center font-extrabold text-4xl sm:text-6xl flex items-center italic mb-8 justify-center tracking-wide">
@@ -24,7 +25,7 @@
             <div>
                 <input type="text" name="name"
                     class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Name">
+                    placeholder="Name" th:field="*{name}">
             </div>
 
         </div>

@@ -10,15 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 
 import br.com.jhonecmd.courses_api_front.modules.categories.dto.CreateCategoryDTO;
+import br.com.jhonecmd.courses_api_front.modules.categories.dto.UpdateCategoryDTO;
 import br.com.jhonecmd.courses_api_front.modules.categories.services.CreateCategoryService;
 import br.com.jhonecmd.courses_api_front.modules.categories.services.DeleteCategoryService;
 import br.com.jhonecmd.courses_api_front.modules.categories.services.FetchCategoriesService;
+import br.com.jhonecmd.courses_api_front.modules.categories.services.GetByCategoryService;
+import br.com.jhonecmd.courses_api_front.modules.categories.services.UpdateCategoryService;
 import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 
 @Controller
@@ -26,10 +30,16 @@ import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 public class CategoryController {
 
     @Autowired
+    private CreateCategoryService createCategoryService;
+
+    @Autowired
     private FetchCategoriesService fetchCategoriesService;
 
     @Autowired
-    private CreateCategoryService createCategoryService;
+    private GetByCategoryService getByCategoryService;
+
+    @Autowired
+    private UpdateCategoryService updateCategoryService;
 
     @Autowired
     private DeleteCategoryService deleteCategoryService;
@@ -76,9 +86,18 @@ public class CategoryController {
 
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
-    public String update() {
+    public String update(Model model, @PathVariable("id") String categoryId) {
 
+        model.addAttribute("category", getByCategoryService.execute(getToken(), categoryId));
         return "modules/categories/update";
+    }
+
+    @PostMapping("/editar/{id}")
+    public String saveUpdate(@PathVariable("id") String categoryId,
+            @ModelAttribute("category") UpdateCategoryDTO updateCategoryDTO) {
+
+        updateCategoryService.execute(getToken(), categoryId, updateCategoryDTO);
+        return "redirect:/categories";
     }
 
     @DeleteMapping("/delete/{id}")

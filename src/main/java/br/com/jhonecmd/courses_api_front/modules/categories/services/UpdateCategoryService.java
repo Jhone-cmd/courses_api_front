@@ -1,4 +1,4 @@
-package br.com.jhonecmd.courses_api_front.modules.users.services;
+package br.com.jhonecmd.courses_api_front.modules.categories.services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -8,15 +8,15 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import br.com.jhonecmd.courses_api_front.modules.users.dto.UpdateUserDTO;
+import br.com.jhonecmd.courses_api_front.modules.categories.dto.UpdateCategoryDTO;
 
 @Service
-public class UpdateUserService {
+public class UpdateCategoryService {
 
     @Value("${api.url}")
     private String apiUrl;
 
-    public void execute(String token, String userId, UpdateUserDTO updateUserDTO) {
+    public void execute(String token, String categoryId, UpdateCategoryDTO updateCategoryDTO) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -24,15 +24,15 @@ public class UpdateUserService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(token);
 
-        HttpEntity<UpdateUserDTO> request = new HttpEntity<>(updateUserDTO, headers);
+        HttpEntity<UpdateCategoryDTO> request = new HttpEntity<>(updateCategoryDTO, headers);
 
-        var url = apiUrl.concat("/users/{id}");
+        var url = apiUrl.concat("/categories/{id}");
 
         restTemplate.exchange(
                 url,
                 HttpMethod.PUT,
                 request,
-                UpdateUserDTO.class,
-                userId);
+                UpdateCategoryDTO.class,
+                categoryId);
     }
 }
