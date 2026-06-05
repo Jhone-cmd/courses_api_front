@@ -20,11 +20,15 @@ import br.com.jhonecmd.courses_api_front.modules.courses.dto.CreateCourseDTO;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.CreateCourseService;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.DeleteCourseService;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.FetchCoursesService;
+import br.com.jhonecmd.courses_api_front.modules.courses.services.GetByCourseService;
 import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
+
+    @Autowired
+    private CreateCourseService createCourseService;
 
     @Autowired
     private FetchCategoriesService fetchCategoriesService;
@@ -33,7 +37,7 @@ public class CourseController {
     private FetchCoursesService fetchCoursesService;
 
     @Autowired
-    private CreateCourseService createCourseService;
+    private GetByCourseService getByCourseService;
 
     @Autowired
     private DeleteCourseService deleteCourseService;
@@ -78,6 +82,16 @@ public class CourseController {
             return "modules/categories/create";
         }
 
+    }
+
+    @GetMapping("/editar/{id}")
+    @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
+    public String update(Model model, @PathVariable("id") String courseId) {
+
+        model.addAttribute("course", getByCourseService.execute(getToken(), courseId));
+        var result = fetchCategoriesService.execute(getToken());
+        model.addAttribute("categories", result);
+        return "modules/courses/update";
     }
 
     @DeleteMapping("/delete/{id}")

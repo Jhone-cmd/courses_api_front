@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Editar Curso</title>
+</head>
+
+<body class="bg-slate-900 min-h-screen items-center flex justify-center p-4 md:p-6 overflow-y-auto antialiased">
+
+    <form th:action="@{/courses/editar/{id}(id=*{id})}" method="post" th:object="${course}" class="w-full max-w-md">
+
+        <div
+            class="text-white text-center font-extrabold text-4xl sm:text-6xl flex items-center italic mb-8 justify-center tracking-wide">
+            <h1 class="bg-gradient-to-r from-purple-400 to-lime-400 bg-clip-text text-transparent">Dados do Curso</h1>
+        </div>
+
+        <div
+            class="space-y-6 bg-purple-900/30 border border-purple-500/20 backdrop-blur-md rounded-2xl p-6 sm:p-12 shadow-2xl w-full">
+
+            <div>
+                <input type="text" name="name"
+                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
+                    placeholder="Name" th:field="*{name}">
+            </div>
+
+            <div>
+                <input type="text" name="teacher"
+                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
+                    placeholder="Teacher" th:field="*{teacherName}">
+            </div>
+
+            <div>
+                <textarea name="description" cols="10" rows="8" placeholder="Description" th:field="*{description}"
+                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"></textarea>
+
+            </div>
+
+            <div class="relative w-full">
+                <select name="categoryId"
+                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 pr-12 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30 appearance-none cursor-pointer">
+
+                    <option value="">Selecione uma categoria</option>
+
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"
+                        th:selected="${category.name == course.categoryName}" class="bg-purple-900 text-white">
+                        Nome da Categoria
+                    </option>
+                </select>
+
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-lime-400">
+                    <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                </div>
+            </div>
+
+
+            <div class="flex flex-col mb-6 items-center justify-center space-y-2 w-full mx-auto">
+
+                <p class="text-red-400 mt-2 mb-6 font-medium text-sm text-center whitespace-normal break-words w-full"
+                    th:if="${error}" th:text="${error}">
+                </p>
+
+            </div>
+
+            <button
+                class="bg-lime-400 mb-6 w-full p-4 rounded-lg text-purple-950 font-bold tracking-wider hover:bg-lime-200 transition-colors shadow-lg shadow-lime-400/20">
+                SALVAR
+            </button>
+
+            <a href="/courses"
+                class="block text-center bg-red-400 w-full p-4 rounded-lg text-purple-950 font-bold tracking-wider hover:bg-red-200 transition-colors shadow-lg shadow-lime-400/20">
+                CANCELAR
+            </a>
+        </div>
+
+    </form>
+</body>
+
+</html>
