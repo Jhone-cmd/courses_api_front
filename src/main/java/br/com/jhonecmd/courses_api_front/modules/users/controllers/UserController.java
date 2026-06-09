@@ -152,6 +152,11 @@ public class UserController {
         return "redirect:/users/me";
     }
 
+    @GetMapping("/change-password")
+    public String changePassword() {
+        return "modules/users/changePassword";
+    }
+
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('RECTOR')")
     public String delete(@PathVariable("id") String userId) {
