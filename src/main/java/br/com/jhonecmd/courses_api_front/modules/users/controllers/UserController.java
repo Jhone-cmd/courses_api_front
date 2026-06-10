@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.jhonecmd.courses_api_front.modules.users.dto.ChangePasswordUserDTO;
 import br.com.jhonecmd.courses_api_front.modules.users.dto.CreateUserDTO;
 import br.com.jhonecmd.courses_api_front.modules.users.dto.UpdateUserDTO;
+import br.com.jhonecmd.courses_api_front.modules.users.services.ChangePasswordUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.CreateUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.DeleteUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.FetchUserService;
@@ -49,6 +51,9 @@ public class UserController {
     private UpdateUserService updateUserService;
 
     @Autowired
+    private ChangePasswordUserService changePasswordUserService;
+
+    @Autowired
     private DeleteUserService deleteUserService;
 
     @GetMapping("/create")
@@ -68,7 +73,6 @@ public class UserController {
             model.addAttribute("user", userDTO);
             return "modules/users/create";
         }
-
     }
 
     @GetMapping("/login")
@@ -153,8 +157,22 @@ public class UserController {
     }
 
     @GetMapping("/change-password")
-    public String changePassword() {
+    public String changePassword(Model model) {
+        model.addAttribute("user", new ChangePasswordUserDTO());
         return "modules/users/changePassword";
+    }
+
+    @PostMapping("/change-password")
+    public String saveChangePassword(ChangePasswordUserDTO userDTO, Model model) {
+
+        try {
+            changePasswordUserService.execute(userDTO);
+            return "redirect:/users/login";
+        } catch (HttpClientErrorException ex) {
+            model.addAttribute("error", FormatErrorMessage.formatErrorMessage(ex.getResponseBodyAsString()));
+            model.addAttribute("user", userDTO);
+            return "modules/users/changePassword";
+        }
     }
 
     @DeleteMapping("/delete/{id}")
