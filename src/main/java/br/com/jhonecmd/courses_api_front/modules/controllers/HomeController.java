@@ -1,13 +1,17 @@
 package br.com.jhonecmd.courses_api_front.modules.controllers;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.jhonecmd.courses_api_front.modules.courses.dto.CourseResponseDTO;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.FetchAllCoursesService;
@@ -46,6 +50,31 @@ public class HomeController {
         model.addAttribute("totalCategories", categories.size());
 
         return "modules/home/index";
+    }
+
+    @GetMapping("/courses/v2")
+    public String courses(@RequestParam(value = "search", required = false) String search, Model model) {
+
+        CourseResponseDTO[] coursesArray = fetchAllCoursesService.execute();
+
+        if (coursesArray == null) {
+            coursesArray = new CourseResponseDTO[0];
+        }
+
+        List<CourseResponseDTO> filteredCourses = Arrays.asList(coursesArray);
+
+        if (search != null && !search.isBlank()) {
+            String term = search.toLowerCase().trim();
+            filteredCourses = filteredCourses.stream()
+                    .filter(course -> course.getName() != null && course.getName().toLowerCase().contains(term))
+                    .collect(Collectors.toList());
+
+            model.addAttribute("searchTerm", search);
+        }
+
+        model.addAttribute("courses", filteredCourses);
+
+        return "modules/home/courses-v2";
     }
 
 }

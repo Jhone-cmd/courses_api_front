@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Cursos</title>
+</head>
+
+<body class="bg-slate-900 min-h-screen p-4 sm:p-8 antialiased text-slate-300">
+    <div class="max-w-6xl mx-auto">
+
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+            <div>
+                <h2 class="text-3xl font-bold text-white">Cursos</h2>
+                <p class="text-slate-400">Consulte o catálogo de disciplinas disponíveis</p>
+            </div>
+
+            <div class="relative w-full md:max-w-sm">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <input type="text" id="search-input" placeholder="Filtrar curso por nome..."
+                    class="w-full rounded-lg border border-slate-700 bg-slate-800 py-2 pl-10 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" />
+            </div>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(courses)}" id="courses-grid"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <div th:each="course : ${courses}"
+                class="course-card bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col h-full hover:border-slate-500 transition-colors shadow-sm">
+
+                <div class="flex justify-between items-start mb-4">
+                    <span
+                        class="px-2.5 py-0.5 text-xs font-medium rounded-full bg-blue-900/40 text-blue-400 border border-blue-800/50"
+                        th:text="${course.categoryName}">
+                        Categoria
+                    </span>
+                </div>
+
+                <h3 class="course-name text-xl font-bold text-white mb-2 truncate" th:text="${course.name}">
+                    Nome do Curso
+                </h3>
+
+                <p class="text-slate-400 text-sm leading-relaxed break-words overflow-hidden"
+                    style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;"
+                    th:text="${course.description}">
+                    Descrição do curso.
+                </p>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(courses)}"
+            class="text-center py-20 bg-slate-800 rounded-xl border border-dashed border-slate-700">
+            <p class="text-slate-500 italic">Nenhum curso cadastrado.</p>
+        </div>
+
+        <div id="empty-search-state"
+            class="hidden text-center py-20 bg-slate-800 rounded-xl border border-dashed border-slate-700">
+            <p class="text-slate-500 italic">Nenhum curso corresponde à sua pesquisa.</p>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const courseCards = document.querySelectorAll('.course-card');
+            const emptySearchState = document.getElementById('empty-search-state');
+
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                let hasVisibleCourses = false;
+
+                courseCards.forEach(card => {
+                    const courseName = card.querySelector('.course-name').textContent.toLowerCase();
+
+                    if (courseName.includes(searchTerm)) {
+                        card.classList.remove('hidden');
+                        hasVisibleCourses = true;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                if (hasVisibleCourses || searchTerm === "") {
+                    emptySearchState.classList.add('hidden');
+                } else {
+                    emptySearchState.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
