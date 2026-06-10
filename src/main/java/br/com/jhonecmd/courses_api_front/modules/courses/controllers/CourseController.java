@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import br.com.jhonecmd.courses_api_front.modules.categories.services.FetchCategoriesService;
 import br.com.jhonecmd.courses_api_front.modules.courses.dto.CreateCourseDTO;
+import br.com.jhonecmd.courses_api_front.modules.courses.services.ChangeStatusCourseService;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.CreateCourseService;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.DeleteCourseService;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.FetchCoursesService;
@@ -38,6 +40,9 @@ public class CourseController {
 
     @Autowired
     private GetByCourseService getByCourseService;
+
+    @Autowired
+    private ChangeStatusCourseService changeStatusCourseService;
 
     @Autowired
     private DeleteCourseService deleteCourseService;
@@ -92,6 +97,14 @@ public class CourseController {
         var result = fetchCategoriesService.execute(getToken());
         model.addAttribute("categories", result);
         return "modules/courses/update";
+    }
+
+    @PatchMapping("/{id}/active")
+    @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
+    public String changeStatusCourse(@PathVariable("id") String courseId) {
+
+        changeStatusCourseService.execute(getToken(), courseId);
+        return "redirect:/courses";
     }
 
     @DeleteMapping("/delete/{id}")
