@@ -16,12 +16,12 @@ import org.springframework.web.client.RestTemplate;
 import br.com.jhonecmd.courses_api_front.modules.courses.dto.CourseResponseDTO;
 
 @Service
-public class FetchCoursesService {
+public class FetchAllCoursesService {
 
     @Value("${api.url}")
     private String apiUrl;
 
-    public CourseResponseDTO[] execute(String token) {
+    public CourseResponseDTO[] execute() {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -30,7 +30,7 @@ public class FetchCoursesService {
 
         HttpEntity<Map<String, String>> request = new HttpEntity<>(headers);
 
-        var url = apiUrl.concat("/courses");
+        var url = apiUrl.concat("/courses/v2");
 
         try {
             var result = restTemplate.exchange(url, HttpMethod.GET, request,

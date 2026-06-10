@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Courses API Front</title>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-slate-100 antialiased overflow-x-hidden">
+    <div class="relative isolate">
+        <!-- Background Gradients -->
+        <div
+            class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.16),_transparent_36%),radial-gradient(circle_at_right,_rgba(56,189,248,0.14),_transparent_24%),linear-gradient(180deg,_#020617_0%,_#0f172a_55%,_#020617_100%)]">
+        </div>
+        <div
+            class="absolute inset-x-0 top-0 -z-10 h-96 bg-[linear-gradient(135deg,rgba(16,185,129,0.18),rgba(59,130,246,0.1),transparent_72%)] blur-3xl">
+        </div>
+
+        <!-- Header -->
+        <header class="sticky top-0 z-20 border-b border-white/5 bg-slate-950/75 backdrop-blur-xl">
+            <div
+                class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+                <a th:href="@{/}" class="flex items-center gap-3">
+                    <div
+                        class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-black shadow-lg shadow-emerald-500/20">
+                        C
+                    </div>
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.3em] text-emerald-300/80">Courses API</p>
+                        <h1 class="text-lg font-semibold text-white">Aprenda no seu ritmo</h1>
+                    </div>
+                </a>
+
+                <nav class="flex flex-col gap-3 sm:flex-row">
+                    <a th:href="@{/users/login}"
+                        class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-400/60 hover:bg-emerald-400/10">
+                        Entrar
+                    </a>
+                    <a th:href="@{/users/create}"
+                        class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:brightness-110">
+                        Criar conta
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+            <section class="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+
+                <!-- Left Side: Hero Info -->
+                <div class="space-y-8 lg:sticky lg:top-28">
+                    <div
+                        class="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm text-emerald-200">
+                        <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
+                        Catálogo atualizado e navegação rápida
+                    </div>
+
+                    <div class="space-y-5">
+                        <h2
+                            class="max-w-3xl text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl">
+                            Descubra cursos com uma experiência clara e marcante.
+                        </h2>
+                        <p class="max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
+                            Explore o catálogo disponível, visualize informações essenciais e acesse sua conta ou crie
+                            uma nova em poucos cliques.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-3 sm:flex-row">
+                        <a href="/courses/v2"
+                            class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-slate-200 shadow-xl shadow-white/5">
+                            Ver cursos
+                        </a>
+                        <a th:href="@{/users/login}"
+                            class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/10">
+                            Acessar painel
+                        </a>
+                    </div>
+
+                    <!-- Stats Grid (Adjusted to 2 columns since 'Active' was removed) -->
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <article class="rounded-2xl border border-white/10 bg-slate-900/40 p-5 backdrop-blur-sm">
+                            <p class="text-sm font-medium text-slate-400">Total de Cursos</p>
+                            <p class="mt-2 text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400"
+                                th:text="${totalCourses}">0</p>
+                        </article>
+                        <article class="rounded-2xl border border-white/10 bg-slate-900/40 p-5 backdrop-blur-sm">
+                            <p class="text-sm font-medium text-slate-400">Categorias Disponíveis</p>
+                            <p class="mt-2 text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400"
+                                th:text="${totalCategories}">0</p>
+                        </article>
+                    </div>
+                </div>
+
+                <!-- Right Side: Enhanced Featured Card Display -->
+                <div class="relative">
+                    <div class="absolute -left-8 top-10 h-32 w-32 rounded-full bg-emerald-500/10 blur-3xl"></div>
+                    <div class="absolute -right-10 bottom-8 h-36 w-36 rounded-full bg-cyan-500/10 blur-3xl"></div>
+
+                    <!-- Main Showcase Container -->
+                    <div
+                        class="relative rounded-[2.5rem] border border-white/10 bg-slate-900/60 p-2 shadow-2xl shadow-emerald-950/20 backdrop-blur-md">
+                        <div class="rounded-[2.2rem] bg-slate-950/40 p-6 sm:p-8 border border-white/5">
+
+                            <div class="flex items-center justify-between border-b border-white/5 pb-6 mb-6">
+                                <div>
+                                    <p class="text-xs font-bold uppercase tracking-[0.25em] text-emerald-400">Destaque
+                                    </p>
+                                    <h3 class="text-2xl font-bold text-white mt-1">Catálogo em evidência</h3>
+                                </div>
+                                <div
+                                    class="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300">
+                                    Conteúdo Original
+                                </div>
+                            </div>
+
+                            <!-- Course List -->
+                            <div th:if="${not #lists.isEmpty(courses)}" class="grid gap-5 sm:grid-cols-2">
+                                <article th:each="course : ${courses}"
+                                    class="group relative flex flex-col justify-between rounded-2xl border border-white/5 bg-slate-900/40 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/30 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-emerald-500/5">
+
+                                    <div>
+                                        <div class="flex items-center justify-between">
+                                            <span
+                                                class="inline-flex rounded-lg bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-500/20"
+                                                th:text="${course.categoryName}">
+                                                Categoria
+                                            </span>
+                                        </div>
+
+                                        <h4 class="mt-4 text-lg font-bold text-white group-hover:text-emerald-300 transition-colors duration-300"
+                                            th:text="${course.name}">
+                                            Curso
+                                        </h4>
+
+                                        <p class="mt-2.5 text-sm leading-relaxed text-slate-400 group-hover:text-slate-300 transition-colors duration-300"
+                                            style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;"
+                                            th:text="${course.description}">
+                                            Descrição do curso.
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="mt-5 flex items-center justify-between gap-3 border-t border-white/5 pt-4 text-xs text-slate-500">
+                                        <span class="font-medium text-slate-400"
+                                            th:text="${course.teacherName}">Professor</span>
+                                        <span class="flex items-center gap-1">
+                                            Acessar <span
+                                                class="transition-transform group-hover:translate-x-1">→</span>
+                                        </span>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!-- Empty State -->
+                            <div th:if="${#lists.isEmpty(courses)}"
+                                class="flex min-h-[400px] items-center justify-center rounded-[1.8rem] border border-dashed border-white/10 bg-slate-950/40 p-8 text-center">
+                                <div class="max-w-xs space-y-4">
+                                    <div
+                                        class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400/20 to-cyan-500/20 text-emerald-300 text-xl">
+                                        ✦
+                                    </div>
+                                    <h4 class="text-lg font-semibold text-white">Nenhum curso disponível</h4>
+                                    <p class="text-xs leading-relaxed text-slate-400">
+                                        Assim que os novos conteúdos forem publicados, eles aparecerão detalhados neste
+                                        painel.
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Features Grid -->
+            <section id="catalogo"
+                class="mt-16 grid gap-6 rounded-[2rem] border border-white/10 bg-slate-900/20 p-6 backdrop-blur-sm lg:grid-cols-3 lg:p-8">
+                <article class="p-2">
+                    <p class="text-xs font-bold uppercase tracking-[0.3em] text-emerald-400">Acesso rápido</p>
+                    <h3 class="mt-2 text-xl font-bold text-white">Entre em segundos</h3>
+                    <p class="mt-2.5 text-sm leading-relaxed text-slate-400">
+                        Use sua conta para continuar de onde parou ou crie um novo cadastro para começar sua jornada.
+                    </p>
+                </article>
+                <article class="p-2">
+                    <p class="text-xs font-bold uppercase tracking-[0.3em] text-cyan-400">Interface</p>
+                    <h3 class="mt-2 text-xl font-bold text-white">Adaptada para mobile</h3>
+                    <p class="mt-2.5 text-sm leading-relaxed text-slate-400">
+                        Navegação em grade, cartões fluidos e botões amplos mantêm a experiência consistente em qualquer
+                        tela.
+                    </p>
+                </article>
+                <article class="p-2">
+                    <p class="text-xs font-bold uppercase tracking-[0.3em] text-sky-400">Conteúdo</p>
+                    <h3 class="mt-2 text-xl font-bold text-white">Catálogo valorizado</h3>
+                    <p class="mt-2.5 text-sm leading-relaxed text-slate-400">
+                        O design focado na legibilidade ajuda você a encontrar rapidamente o que procura em nossa grade.
+                    </p>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
