@@ -1,6 +1,5 @@
 package br.com.jhonecmd.courses_api_front.modules.courses.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,23 +28,28 @@ import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 @RequestMapping("/courses")
 public class CourseController {
 
-    @Autowired
-    private CreateCourseService createCourseService;
+    private final CreateCourseService createCourseService;
 
-    @Autowired
-    private FetchCategoriesService fetchCategoriesService;
+    private final FetchCategoriesService fetchCategoriesService;
 
-    @Autowired
-    private FetchCoursesService fetchCoursesService;
+    private final FetchCoursesService fetchCoursesService;
 
-    @Autowired
-    private GetByCourseService getByCourseService;
+    private final GetByCourseService getByCourseService;
 
-    @Autowired
-    private ChangeStatusCourseService changeStatusCourseService;
+    private final ChangeStatusCourseService changeStatusCourseService;
 
-    @Autowired
-    private DeleteCourseService deleteCourseService;
+    private final DeleteCourseService deleteCourseService;
+
+    CourseController(CreateCourseService createCourseService, FetchCategoriesService fetchCategoriesService,
+            FetchCoursesService fetchCoursesService, GetByCourseService getByCourseService,
+            ChangeStatusCourseService changeStatusCourseService, DeleteCourseService deleteCourseService) {
+        this.createCourseService = createCourseService;
+        this.fetchCategoriesService = fetchCategoriesService;
+        this.fetchCoursesService = fetchCoursesService;
+        this.getByCourseService = getByCourseService;
+        this.changeStatusCourseService = changeStatusCourseService;
+        this.deleteCourseService = deleteCourseService;
+    }
 
     @GetMapping("")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")

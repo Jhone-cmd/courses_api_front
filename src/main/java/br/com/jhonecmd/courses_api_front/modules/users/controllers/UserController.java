@@ -1,6 +1,5 @@
 package br.com.jhonecmd.courses_api_front.modules.users.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,26 +34,31 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private CreateUserService createUserService;
+    private final CreateUserService createUserService;
 
-    @Autowired
-    private LoginUserService loginUserService;
+    private final LoginUserService loginUserService;
 
-    @Autowired
-    private GetByUserService getByUserService;
+    private final GetByUserService getByUserService;
 
-    @Autowired
-    private FetchUserService fetchUserService;
+    private final FetchUserService fetchUserService;
 
-    @Autowired
-    private UpdateUserService updateUserService;
+    private final UpdateUserService updateUserService;
 
-    @Autowired
-    private ChangePasswordUserService changePasswordUserService;
+    private final ChangePasswordUserService changePasswordUserService;
 
-    @Autowired
-    private DeleteUserService deleteUserService;
+    private final DeleteUserService deleteUserService;
+
+    UserController(DeleteUserService deleteUserService, ChangePasswordUserService changePasswordUserService,
+            CreateUserService createUserService, LoginUserService loginUserService, GetByUserService getByUserService,
+            FetchUserService fetchUserService, UpdateUserService updateUserService) {
+        this.deleteUserService = deleteUserService;
+        this.changePasswordUserService = changePasswordUserService;
+        this.createUserService = createUserService;
+        this.loginUserService = loginUserService;
+        this.getByUserService = getByUserService;
+        this.fetchUserService = fetchUserService;
+        this.updateUserService = updateUserService;
+    }
 
     @GetMapping("/create")
     public String create(Model model) {
@@ -99,7 +103,7 @@ public class UserController {
             session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
             session.setAttribute("token", token);
 
-            return "redirect:/categories";
+            return "redirect:/users/me";
 
         } catch (HttpClientErrorException ex) {
 

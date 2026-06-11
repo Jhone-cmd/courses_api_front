@@ -1,6 +1,5 @@
 package br.com.jhonecmd.courses_api_front.modules.categories.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,20 +28,25 @@ import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 @RequestMapping("/categories")
 public class CategoryController {
 
-    @Autowired
-    private CreateCategoryService createCategoryService;
+    private final CreateCategoryService createCategoryService;
 
-    @Autowired
-    private FetchCategoriesService fetchCategoriesService;
+    private final FetchCategoriesService fetchCategoriesService;
 
-    @Autowired
-    private GetByCategoryService getByCategoryService;
+    private final GetByCategoryService getByCategoryService;
 
-    @Autowired
-    private UpdateCategoryService updateCategoryService;
+    private final UpdateCategoryService updateCategoryService;
 
-    @Autowired
-    private DeleteCategoryService deleteCategoryService;
+    private final DeleteCategoryService deleteCategoryService;
+
+    CategoryController(CreateCategoryService createCategoryService, FetchCategoriesService fetchCategoriesService,
+            GetByCategoryService getByCategoryService, UpdateCategoryService updateCategoryService,
+            DeleteCategoryService deleteCategoryService) {
+        this.createCategoryService = createCategoryService;
+        this.fetchCategoriesService = fetchCategoriesService;
+        this.getByCategoryService = getByCategoryService;
+        this.updateCategoryService = updateCategoryService;
+        this.deleteCategoryService = deleteCategoryService;
+    }
 
     @GetMapping("")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
