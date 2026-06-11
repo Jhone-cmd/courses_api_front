@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Courses API Front</title>
+    <title>Courses API</title>
 </head>
 
 <body class="min-h-screen bg-slate-950 text-slate-100 antialiased overflow-x-hidden">
     <div class="relative isolate">
-        <!-- Background Gradients -->
+
         <div
             class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.16),_transparent_36%),radial-gradient(circle_at_right,_rgba(56,189,248,0.14),_transparent_24%),linear-gradient(180deg,_#020617_0%,_#0f172a_55%,_#020617_100%)]">
         </div>
@@ -18,7 +18,7 @@
             class="absolute inset-x-0 top-0 -z-10 h-96 bg-[linear-gradient(135deg,rgba(16,185,129,0.18),rgba(59,130,246,0.1),transparent_72%)] blur-3xl">
         </div>
 
-        <!-- Header -->
+
         <header class="sticky top-0 z-20 border-b border-white/5 bg-slate-950/75 backdrop-blur-xl">
             <div
                 class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
@@ -46,11 +46,9 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
             <section class="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
 
-                <!-- Left Side: Hero Info -->
                 <div class="space-y-8 lg:sticky lg:top-28">
                     <div
                         class="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm text-emerald-200">
@@ -80,7 +78,6 @@
                         </a>
                     </div>
 
-                    <!-- Stats Grid (Adjusted to 2 columns since 'Active' was removed) -->
                     <div class="grid gap-4 sm:grid-cols-2">
                         <article class="rounded-2xl border border-white/10 bg-slate-900/40 p-5 backdrop-blur-sm">
                             <p class="text-sm font-medium text-slate-400">Total de Cursos</p>
@@ -95,12 +92,10 @@
                     </div>
                 </div>
 
-                <!-- Right Side: Enhanced Featured Card Display -->
                 <div class="relative">
                     <div class="absolute -left-8 top-10 h-32 w-32 rounded-full bg-emerald-500/10 blur-3xl"></div>
                     <div class="absolute -right-10 bottom-8 h-36 w-36 rounded-full bg-cyan-500/10 blur-3xl"></div>
 
-                    <!-- Main Showcase Container -->
                     <div
                         class="relative rounded-[2.5rem] border border-white/10 bg-slate-900/60 p-2 shadow-2xl shadow-emerald-950/20 backdrop-blur-md">
                         <div class="rounded-[2.2rem] bg-slate-950/40 p-6 sm:p-8 border border-white/5">
@@ -117,7 +112,6 @@
                                 </div>
                             </div>
 
-                            <!-- Course List -->
                             <div th:if="${not #lists.isEmpty(courses)}" class="grid gap-5 sm:grid-cols-2">
                                 <article th:each="course : ${courses}"
                                     class="group relative flex flex-col justify-between rounded-2xl border border-white/5 bg-slate-900/40 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/30 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-emerald-500/5">
@@ -155,7 +149,6 @@
                                 </article>
                             </div>
 
-                            <!-- Empty State -->
                             <div th:if="${#lists.isEmpty(courses)}"
                                 class="flex min-h-[400px] items-center justify-center rounded-[1.8rem] border border-dashed border-white/10 bg-slate-950/40 p-8 text-center">
                                 <div class="max-w-xs space-y-4">
@@ -170,13 +163,11 @@
                                     </p>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Bottom Features Grid -->
             <section id="catalogo"
                 class="mt-16 grid gap-6 rounded-[2rem] border border-white/10 bg-slate-900/20 p-6 backdrop-blur-sm lg:grid-cols-3 lg:p-8">
                 <article class="p-2">

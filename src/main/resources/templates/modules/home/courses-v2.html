@@ -5,66 +5,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Cursos</title>
+    <title>Cursos - Catálogo Completo</title>
 </head>
 
-<body class="bg-slate-900 min-h-screen p-4 sm:p-8 antialiased text-slate-300">
-    <div class="max-w-6xl mx-auto">
+<body class="min-h-screen bg-slate-950 text-slate-100 antialiased overflow-x-hidden">
+    <div class="relative isolate min-h-screen">
+        <div
+            class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.12),_transparent_40%),radial-gradient(circle_at_right,_rgba(56,189,248,0.1),_transparent_30%),linear-gradient(180deg,_#020617_0%,_#0f172a_55%,_#020617_100%)]">
+        </div>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
-            <div>
-                <h2 class="text-3xl font-bold text-white">Cursos</h2>
-                <p class="text-slate-400">Consulte o catálogo de disciplinas disponíveis</p>
+        <header class="sticky top-0 z-20 border-b border-white/5 bg-slate-950/75 backdrop-blur-xl">
+            <div
+                class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+                <a th:href="@{/}" class="flex items-center gap-3">
+                    <div
+                        class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-black shadow-lg shadow-emerald-500/20">
+                        C
+                    </div>
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.3em] text-emerald-300/80">Courses API</p>
+                        <h1 class="text-lg font-semibold text-white">Aprenda no seu ritmo</h1>
+                    </div>
+                </a>
+
+                <nav class="flex flex-col gap-3 sm:flex-row">
+                    <a th:href="@{/users/login}"
+                        class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-400/60 hover:bg-emerald-400/10">
+                        Entrar
+                    </a>
+                    <a th:href="@{/users/create}"
+                        class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:brightness-110">
+                        Criar conta
+                    </a>
+                </nav>
             </div>
+        </header>
 
-            <div class="relative w-full md:max-w-sm">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+        <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12">
+                <div>
+                    <div
+                        class="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-1.5 text-xs text-emerald-200 mb-3">
+                        <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
+                        Conhecimento sem fronteiras
+                    </div>
+                    <h2 class="text-3xl font-black text-white sm:text-4xl tracking-tight">Nossos Cursos</h2>
+                    <p class="text-slate-400 mt-1">Consulte o catálogo de disciplinas disponíveis</p>
                 </div>
-                <input type="text" id="search-input" placeholder="Filtrar curso por nome..."
-                    class="w-full rounded-lg border border-slate-700 bg-slate-800 py-2 pl-10 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" />
-            </div>
-        </div>
 
-        <div th:if="${not #lists.isEmpty(courses)}" id="courses-grid"
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <div th:each="course : ${courses}"
-                class="course-card bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col h-full hover:border-slate-500 transition-colors shadow-sm">
-
-                <div class="flex justify-between items-start mb-4">
-                    <span
-                        class="px-2.5 py-0.5 text-xs font-medium rounded-full bg-blue-900/40 text-blue-400 border border-blue-800/50"
-                        th:text="${course.categoryName}">
-                        Categoria
-                    </span>
+                <div class="relative w-full md:max-w-sm">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500">
+                        <svg class="h-4 w-4 text-emerald-400/70" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" id="search-input" placeholder="Filtrar curso por nome..."
+                        class="w-full rounded-full border border-white/10 bg-slate-900/60 py-3 pl-11 pr-5 text-sm text-white placeholder-slate-500 outline-none transition-all focus:border-emerald-400/60 focus:ring-1 focus:ring-emerald-400/60 backdrop-blur-sm" />
                 </div>
-
-                <h3 class="course-name text-xl font-bold text-white mb-2 truncate" th:text="${course.name}">
-                    Nome do Curso
-                </h3>
-
-                <p class="text-slate-400 text-sm leading-relaxed break-words overflow-hidden"
-                    style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;"
-                    th:text="${course.description}">
-                    Descrição do curso.
-                </p>
             </div>
-        </div>
 
-        <div th:if="${#lists.isEmpty(courses)}"
-            class="text-center py-20 bg-slate-800 rounded-xl border border-dashed border-slate-700">
-            <p class="text-slate-500 italic">Nenhum curso cadastrado.</p>
-        </div>
+            <div th:if="${not #lists.isEmpty(courses)}" id="courses-grid"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <div id="empty-search-state"
-            class="hidden text-center py-20 bg-slate-800 rounded-xl border border-dashed border-slate-700">
-            <p class="text-slate-500 italic">Nenhum curso corresponde à sua pesquisa.</p>
-        </div>
+                <div th:each="course : ${courses}"
+                    class="course-card group relative flex flex-col justify-between rounded-2xl border border-white/5 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/30 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-emerald-500/5 backdrop-blur-md">
 
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="inline-flex rounded-lg bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-500/20"
+                                th:text="${course.categoryName}">
+                                Categoria
+                            </span>
+                        </div>
+
+                        <h3 class="course-name mt-4 text-xl font-bold text-white group-hover:text-emerald-300 transition-colors duration-300 truncate"
+                            th:text="${course.name}">
+                            Nome do Curso
+                        </h3>
+
+                        <p class="mt-2.5 text-sm leading-relaxed text-slate-400 group-hover:text-slate-300 transition-colors duration-300 break-words overflow-hidden"
+                            style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;"
+                            th:text="${course.description}">
+                            Descrição do curso.
+                        </p>
+                    </div>
+
+                    <div
+                        class="mt-6 flex items-center justify-between gap-3 border-t border-white/5 pt-4 text-xs text-slate-500">
+                        <span class="font-medium text-slate-400" th:text="${course.teacherName}">Professor</span>
+                        <span
+                            class="flex items-center gap-1 text-slate-400 group-hover:text-emerald-300 transition-colors">
+                            Acessar <span class="transition-transform group-hover:translate-x-1">→</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(courses)}"
+                class="flex min-h-[350px] items-center justify-center rounded-[2rem] border border-dashed border-white/10 bg-slate-900/20 p-8 text-center backdrop-blur-sm">
+                <div class="max-w-xs space-y-4">
+                    <div
+                        class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400/20 to-cyan-500/20 text-emerald-300 text-xl">
+                        ✦
+                    </div>
+                    <h4 class="text-lg font-semibold text-white">Nenhum curso cadastrado</h4>
+                    <p class="text-xs leading-relaxed text-slate-400">
+                        Não existem registros cadastrados na base de dados neste momento.
+                    </p>
+                </div>
+            </div>
+
+            <div id="empty-search-state"
+                class="hidden flex min-h-[350px] items-center justify-center rounded-[2rem] border border-dashed border-white/10 bg-slate-900/20 p-8 text-center backdrop-blur-sm">
+                <div class="max-w-xs space-y-4">
+                    <div
+                        class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400/20 to-orange-500/20 text-amber-300 text-xl">
+                        ✕
+                    </div>
+                    <h4 class="text-lg font-semibold text-white">Nenhum resultado encontrado</h4>
+                    <p class="text-xs leading-relaxed text-slate-400">
+                        Não encontramos nenhum curso correspondente à sua pesquisa. Tente buscar por outros termos.
+                    </p>
+                </div>
+            </div>
+
+        </main>
     </div>
 
     <script>
