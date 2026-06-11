@@ -5,74 +5,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Editar Perfil</title>
+    <title>Editar Perfil - Courses API</title>
 </head>
 
-<body class="bg-slate-900 min-h-screen items-center flex justify-center p-4 md:p-6 overflow-y-auto antialiased">
+<body
+    class="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col justify-between overflow-x-hidden relative isolate">
 
-    <form th:action="@{/users/editar/{id}(id=*{id})}" method="post" th:object="${user}" class="w-full max-w-md">
+    <div
+        class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.12),_transparent_40%),radial-gradient(circle_at_bottom,_rgba(56,189,248,0.08),_transparent_30%),linear-gradient(180deg,_#020617_0%,_#0f172a_100%)]">
+    </div>
 
-        <div
-            class="text-white text-center font-extrabold text-4xl sm:text-6xl flex items-center italic mb-6 justify-center tracking-wide">
-            <h1 class="bg-gradient-to-r from-purple-400 to-lime-400 bg-clip-text text-transparent">Dados do Perfil</h1>
-        </div>
-
-        <div
-            class="space-y-6 bg-purple-900/30 border border-purple-500/20 backdrop-blur-md rounded-2xl p-6 sm:p-12 shadow-2xl w-full">
-
-            <div>
-                <input type="text" name="name"
-                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Name" th:field="*{name}">
-            </div>
-
-            <div>
-                <input type="text" name="email"
-                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Email" th:field="*{email}">
-            </div>
-
-            <div class="relative w-full">
-
-                <select th:field="*{position}"
-                    class="w-full bg-white/35 backdrop-blur-md text-white text-sm rounded-lg block p-4 pr-12 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-white/20 appearance-none cursor-pointer transition-all">
-
-                    <option value="" class="text-gray-300 bg-slate-900">Selecione seu cargo
-                    </option>
-                    <option value="rector" class="text-white bg-slate-900">Reitor</option>
-                    <option value="director" class="text-white bg-slate-900">Diretor</option>
-                    <option value="coordinator" class="text-white bg-slate-900">Coordenador</option>
-                    <option value="teacher" class="text-white bg-slate-900">Professor</option>
-                    <option value="student" class="text-white bg-slate-900">Estudante</option>
-                </select>
-
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-lime-400">
-                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
+    <header class="w-full border-b border-white/5 bg-slate-950/75 backdrop-blur-xl">
+        <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+            <a th:href="@{/}" class="flex items-center gap-3 w-fit">
+                <div
+                    class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-black shadow-lg shadow-emerald-500/20">
+                    C
                 </div>
-            </div>
-
-            <div class="flex flex-col items-center justify-center space-y-2 w-full mx-auto">
-
-                <p class="text-red-400 font-medium text-sm text-center whitespace-normal break-words w-full"
-                    th:if="${error}" th:text="${error}">
-                </p>
-
-            </div>
-
-            <button
-                class="bg-lime-400 w-full p-4 rounded-lg text-purple-950 font-bold tracking-wider hover:bg-lime-200 transition-colors shadow-lg shadow-lime-400/20">
-                SALVAR
-            </button>
-
-            <a href="/users/me"
-                class="block text-center bg-red-400 w-full p-4 rounded-lg text-purple-950 font-bold tracking-wider hover:bg-red-200 transition-colors shadow-lg shadow-lime-400/20">
-                CANCELAR
-
+                <div>
+                    <p class="text-sm uppercase tracking-[0.3em] text-emerald-300/80">Courses API</p>
+                </div>
             </a>
         </div>
-    </form>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center px-4 py-12 relative">
+        <div class="absolute -left-8 top-1/4 h-32 w-32 rounded-full bg-emerald-500/10 blur-3xl"></div>
+        <div class="absolute -right-10 bottom-1/4 h-36 w-36 rounded-full bg-cyan-500/10 blur-3xl"></div>
+
+        <form th:action="@{/users/editar/{id}(id=*{id})}" method="post" th:object="${user}"
+            class="w-full max-w-md relative z-10">
+
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-black tracking-tight text-white sm:text-4xl">
+                    Dados do Perfil
+                </h1>
+                <p class="mt-2 text-sm text-slate-400">
+                    Atualize as informações da sua conta.
+                </p>
+            </div>
+
+            <div
+                class="space-y-5 rounded-[2.5rem] border border-white/10 bg-slate-900/60 p-6 sm:p-10 shadow-2xl shadow-emerald-950/20 backdrop-blur-md">
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1.5">Nome
+                        Completo</label>
+                    <input type="text" name="name" required th:field="*{name}"
+                        class="bg-slate-950/60 text-white placeholder-slate-500 text-sm rounded-xl w-full block p-4 focus:outline-none focus:ring-emerald-400 focus:ring-2 border border-white/10 transition-all"
+                        placeholder="Nome">
+                </div>
+
+                <div>
+                    <label
+                        class="block text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1.5">E-mail</label>
+                    <input type="email" name="email" required th:field="*{email}"
+                        class="bg-slate-950/60 text-white placeholder-slate-500 text-sm rounded-xl w-full block p-4 focus:outline-none focus:ring-emerald-400 focus:ring-2 border border-white/10 transition-all"
+                        placeholder="seu@email.com">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1.5">Cargo /
+                        Função</label>
+                    <div class="relative w-full">
+                        <select th:field="*{position}" required
+                            class="w-full bg-slate-950/60 text-white text-sm rounded-xl block p-4 pr-12 focus:outline-none focus:ring-emerald-400 focus:ring-2 border border-white/10 appearance-none cursor-pointer transition-all">
+                            <option value="" class="text-slate-400 bg-slate-950">Selecione seu cargo</option>
+                            <option value="rector" class="text-white bg-slate-950">Reitor</option>
+                            <option value="director" class="text-white bg-slate-950">Diretor</option>
+                            <option value="coordinator" class="text-white bg-slate-950">Coordenador</option>
+                            <option value="teacher" class="text-white bg-slate-950">Professor</option>
+                            <option value="student" class="text-white bg-slate-950">Estudante</option>
+                        </select>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-emerald-400">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div th:if="${error}"
+                    class="w-full flex items-center justify-center rounded-xl bg-red-500/10 border border-red-500/20 py-3 px-4">
+                    <p class="text-red-400 font-medium text-sm text-center whitespace-normal break-words w-full"
+                        th:text="${error}"></p>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <button type="submit"
+                        class="w-full p-4 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-950 font-bold tracking-wider hover:brightness-110 transition-all shadow-lg shadow-emerald-500/10">
+                        SALVAR ALTERAÇÕES
+                    </button>
+
+                    <a href="/users/me"
+                        class="block text-center w-full p-4 rounded-xl border border-white/10 bg-white/5 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:bg-white/10">
+                        CANCELAR
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </main>
+
+    <footer class="w-full py-4 text-center text-xs text-slate-600 border-t border-white/5">
+        &copy; 2026 Courses API. Todos os direitos reservados.
+    </footer>
 </body>
 
 </html>
