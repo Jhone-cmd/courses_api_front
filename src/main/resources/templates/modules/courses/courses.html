@@ -5,80 +5,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Cursos</title>
+    <title>Gerenciar Cursos - Courses API</title>
 </head>
 
-<body class="bg-slate-900 min-h-screen p-4 sm:p-8 antialiased text-slate-300">
-    <div class="max-w-6xl mx-auto">
+<body class="min-h-screen bg-slate-950 text-slate-100 antialiased overflow-x-hidden">
+    <div class="relative isolate min-h-screen flex flex-col justify-between">
 
-        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-            <div>
-                <h2 class="text-3xl font-bold text-white">Cursos</h2>
-                <p class="text-slate-400">Gerencie o catálogo de disciplinas disponíveis</p>
-            </div>
-
-            <a sec:authorize="hasAnyRole('RECTOR', 'DIRECTOR', 'COORDINATOR')" th:href="@{/courses/create}"
-                class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-all shadow-lg shadow-emerald-900/20">
-                + Novo Curso
-            </a>
+        <div
+            class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.12),_transparent_40%),radial-gradient(circle_at_right,_rgba(56,189,248,0.1),_transparent_30%),linear-gradient(180deg,_#020617_0%,_#0f172a_55%,_#020617_100%)]">
+        </div>
+        <div
+            class="absolute inset-x-0 top-0 -z-10 h-96 bg-[linear-gradient(135deg,rgba(16,185,129,0.1),rgba(59,130,246,0.05),transparent_72%)] blur-3xl">
         </div>
 
-        <div th:if="${not #lists.isEmpty(courses)}" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <header class="sticky top-0 z-20 border-b border-white/5 bg-slate-950/75 backdrop-blur-xl">
+            <div
+                class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+                <a th:href="@{/}" class="flex items-center gap-3">
+                    <div
+                        class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-black shadow-lg shadow-emerald-500/20">
+                        C
+                    </div>
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.3em] text-emerald-300/80">Courses API</p>
+                        <h1 class="text-lg font-semibold text-white">Painel Administrativo</h1>
+                    </div>
+                </a>
 
-            <div th:each="course : ${courses}"
-                class="bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col h-full hover:border-slate-500 transition-colors shadow-sm cursor-pointer">
-
-                <div class="flex justify-between items-start mb-4">
-                    <span
-                        class="px-2.5 py-0.5 text-xs font-medium rounded-full bg-blue-900/40 text-blue-400 border border-blue-800/50"
-                        th:text="${course.categoryName}">
-                    </span>
-                    <span
-                        th:class="${course.active ? 'text-emerald-400' : 'text-rose-400'} + ' text-xs font-bold uppercase tracking-wider'"
-                        th:text="${course.active ? '● Ativo' : '● Inativo'}">
-                    </span>
-                </div>
-
-                <h3 class="text-xl font-bold text-white mb-2 truncate" th:text="${course.name}"></h3>
-
-                <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-grow break-words overflow-hidden"
-                    style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;"
-                    th:text="${course.description}">
-                </p>
-
-                <div sec:authorize="hasAnyRole('RECTOR', 'DIRECTOR', 'COORDINATOR')"
-                    class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-700 mt-auto">
-
-                    <a th:href="@{/courses/editar/{id}(id=${course.id})}"
-                        class="w-full text-center py-2 text-xs font-semibold bg-slate-700 hover:bg-slate-600 text-white rounded-md transition-colors flex items-center justify-center">
-                        Editar
+                <nav class="flex flex-col gap-3 sm:flex-row">
+                    <a th:href="@{/}"
+                        class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/10">
+                        Voltar ao Início
                     </a>
+                </nav>
+            </div>
+        </header>
 
-                    <form th:action="@{/courses/delete/{id}(id=${course.id})}" th:method="delete"
-                        onsubmit="return confirm('Deseja excluir este curso?')" class="m-0">
+        <main class="mx-auto max-w-7xl w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-16 flex-grow">
 
-                        <button type="submit"
-                            class="w-full text-center py-2 text-xs font-semibold bg-rose-600/10 hover:bg-rose-600 text-rose-500 hover:text-white rounded-md transition-colors border border-rose-600/20 cursor-pointer">
-                            Excluir
-                        </button>
-                    </form>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-6">
+                <div>
+                    <div
+                        class="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-1.5 text-xs text-emerald-200 mb-3">
+                        <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
+                        Área Restrita
+                    </div>
+                    <h2 class="text-3xl font-black text-white sm:text-4xl tracking-tight">Gerenciamento de Cursos</h2>
+                    <p class="text-slate-400 mt-1">Gerencie o catálogo de disciplinas disponíveis no sistema</p>
+                </div>
 
-                    <form th:if="${!course.active}" th:action="@{/courses/{id}/active(id=${course.id})}"
-                        th:method="patch" onsubmit="return confirm('Deseja ativar este curso?')" class="col-span-2 m-0">
+                <a sec:authorize="hasAnyRole('RECTOR', 'DIRECTOR', 'COORDINATOR')" th:href="@{/courses/create}"
+                    class="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:brightness-110">
+                    + Novo Curso
+                </a>
+            </div>
 
-                        <button type="submit"
-                            class="w-full text-center py-2 text-xs font-semibold bg-green-600/10 hover:bg-green-600 text-green-500 hover:text-white rounded-md transition-colors border border-green-600/20 cursor-pointer">
-                            ATIVAR
-                        </button>
-                    </form>
+            <div th:if="${not #lists.isEmpty(courses)}" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <div th:each="course : ${courses}"
+                    class="group relative flex flex-col justify-between rounded-2xl border border-white/5 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/30 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-emerald-500/5 backdrop-blur-md">
+
+                    <div>
+                        <div class="flex items-center justify-between gap-2">
+                            <span
+                                class="inline-flex rounded-lg bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-500/20"
+                                th:text="${course.categoryName}">
+                                Categoria
+                            </span>
+                            <span
+                                th:class="${course.active ? 'text-emerald-400 border-emerald-500/20 bg-emerald-500/5' : 'text-rose-400 border-rose-500/20 bg-rose-500/5'} + ' text-[10px] font-bold uppercase tracking-wider border px-2 py-0.5 rounded-full'"
+                                th:text="${course.active ? '● Ativo' : '● Inativo'}">
+                            </span>
+                        </div>
+
+                        <h3 class="mt-4 text-xl font-bold text-white group-hover:text-emerald-300 transition-colors duration-300 truncate"
+                            th:text="${course.name}">
+                            Nome do Curso
+                        </h3>
+
+                        <p class="mt-2.5 text-sm leading-relaxed text-slate-400 group-hover:text-slate-300 transition-colors duration-300 break-words overflow-hidden"
+                            style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;"
+                            th:text="${course.description}">
+                            Descrição do curso.
+                        </p>
+                    </div>
+
+                    <div sec:authorize="hasAnyRole('RECTOR', 'DIRECTOR', 'COORDINATOR')"
+                        class="grid grid-cols-2 gap-3 pt-4 border-t border-white/5 mt-6">
+
+                        <a th:href="@{/courses/editar/{id}(id=${course.id})}"
+                            class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white transition hover:border-cyan-400/60 hover:bg-cyan-400/10 hover:text-cyan-200 text-center">
+                            Editar
+                        </a>
+
+                        <form th:action="@{/courses/delete/{id}(id=${course.id})}" th:method="delete"
+                            onsubmit="return confirm('Deseja excluir este curso?')" class="m-0 flex">
+                            <button type="submit"
+                                class="w-full inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-rose-400 transition hover:border-rose-500/40 hover:bg-rose-500/10 cursor-pointer text-center">
+                                Excluir
+                            </button>
+                        </form>
+
+                        <form th:if="${!course.active}" th:action="@{/courses/{id}/active(id=${course.id})}"
+                            th:method="patch" onsubmit="return confirm('Deseja ativar este curso?')"
+                            class="col-span-2 m-0 flex">
+                            <button type="submit"
+                                class="w-full inline-flex items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-emerald-400 transition hover:bg-emerald-500 hover:text-slate-950 cursor-pointer text-center">
+                                ATIVAR CURSO
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div th:if="${#lists.isEmpty(courses)}"
-            class="text-center py-20 bg-slate-800 rounded-xl border border-dashed border-slate-700">
-            <p class="text-slate-500 italic">Nenhum curso cadastrado.</p>
-        </div>
+            <div th:if="${#lists.isEmpty(courses)}"
+                class="flex min-h-[350px] items-center justify-center rounded-[2rem] border border-dashed border-white/10 bg-slate-900/20 p-8 text-center backdrop-blur-sm">
+                <div class="max-w-xs space-y-4">
+                    <div
+                        class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400/20 to-cyan-500/20 text-emerald-300 text-xl">
+                        ✦
+                    </div>
+                    <h4 class="text-lg font-semibold text-white">Nenhum curso cadastrado</h4>
+                    <p class="text-xs leading-relaxed text-slate-400">
+                        Não existem registros cadastrados na base de dados neste momento. Comece adicionando um novo
+                        curso.
+                    </p>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="w-full py-6 text-center text-xs text-slate-600 border-t border-white/5">
+            &copy; 2026 Courses API. Todos os direitos reservados.
+        </footer>
     </div>
 </body>
 

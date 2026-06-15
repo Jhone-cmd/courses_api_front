@@ -27,6 +27,7 @@ public class FetchCoursesService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
 
         HttpEntity<Map<String, String>> request = new HttpEntity<>(headers);
 
@@ -35,7 +36,7 @@ public class FetchCoursesService {
         try {
             var result = restTemplate.exchange(url, HttpMethod.GET, request,
                     CourseResponseDTO[].class);
-            System.out.println(result);
+
             return result.getBody();
         } catch (Unauthorized ex) {
             throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
