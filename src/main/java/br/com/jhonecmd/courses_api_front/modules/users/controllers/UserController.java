@@ -28,6 +28,7 @@ import br.com.jhonecmd.courses_api_front.modules.users.services.GetByUserService
 import br.com.jhonecmd.courses_api_front.modules.users.services.LoginUserService;
 import br.com.jhonecmd.courses_api_front.modules.users.services.UpdateUserService;
 import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -60,9 +61,13 @@ public class UserController {
         this.updateUserService = updateUserService;
     }
 
-    @GetMapping("/create")
-    public String create(Model model) {
+    @GetMapping({ "/create", "/create/admin" })
+    public String showRegisterForm(Model model, HttpServletRequest request) {
         model.addAttribute("user", new CreateUserDTO());
+
+        boolean isAdminRoute = request.getRequestURI().contains("admin");
+        model.addAttribute("isAdminRoute", isAdminRoute);
+
         return "modules/users/create";
     }
 

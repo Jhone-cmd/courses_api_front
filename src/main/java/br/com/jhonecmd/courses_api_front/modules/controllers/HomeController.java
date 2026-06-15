@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.jhonecmd.courses_api_front.modules.courses.dto.CourseResponseDTO;
 import br.com.jhonecmd.courses_api_front.modules.courses.services.FetchAllCoursesService;
+import br.com.jhonecmd.courses_api_front.modules.users.services.CreateUserService;
 
 @Controller
 @RequestMapping("/")
@@ -21,8 +22,11 @@ public class HomeController {
 
     private final FetchAllCoursesService fetchAllCoursesService;
 
+    private final CreateUserService createUserService;
+
     HomeController(FetchAllCoursesService fetchAllCoursesService) {
         this.fetchAllCoursesService = fetchAllCoursesService;
+        this.createUserService = new CreateUserService();
     }
 
     @GetMapping("")
