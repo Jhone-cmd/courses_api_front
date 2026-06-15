@@ -5,79 +5,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Cadastrar Curso</title>
+    <title>Cadastrar Curso - Courses API</title>
 </head>
 
-<body class="bg-slate-900 min-h-screen items-center flex justify-center p-4 md:p-6 overflow-y-auto antialiased">
+<body
+    class="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col justify-between overflow-x-hidden relative isolate">
 
-    <form th:action="@{/courses/create}" method="post" th:object="${course}" class="w-full max-w-md">
+    <div
+        class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.12),_transparent_40%),radial-gradient(circle_at_bottom,_rgba(56,189,248,0.08),_transparent_30%),linear-gradient(180deg,_#020617_0%,_#0f172a_100%)]">
+    </div>
 
-        <div
-            class="text-white font-extrabold text-4xl sm:text-6xl flex items-center italic mb-8 justify-center tracking-wide">
-            <h1 class="bg-gradient-to-r from-purple-400 to-lime-400 bg-clip-text text-transparent">CURSOS</h1>
+    <header class="w-full border-b border-white/5 bg-slate-950/75 backdrop-blur-xl sticky top-0 z-20">
+        <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+            <a th:href="@{/}" class="flex items-center gap-3 w-fit">
+                <div
+                    class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-black shadow-lg shadow-emerald-500/20">
+                    C
+                </div>
+                <div>
+                    <p class="text-sm uppercase tracking-[0.3em] text-emerald-300/80">Courses API</p>
+                </div>
+            </a>
         </div>
+    </header>
 
-        <div
-            class="space-y-6 bg-purple-900/30 border border-purple-500/20 backdrop-blur-md rounded-2xl p-6 sm:p-12 shadow-2xl w-full">
+    <main class="flex-1 flex items-center justify-center px-4 py-12 relative">
+        <div class="absolute -left-8 top-1/4 h-32 w-32 rounded-full bg-emerald-500/10 blur-3xl"></div>
+        <div class="absolute -right-10 bottom-1/4 h-36 w-36 rounded-full bg-cyan-500/10 blur-3xl"></div>
 
-            <div>
-                <input type="text" name="name"
-                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Name" th:field="*{name}">
+        <form th:action="@{/courses/create}" method="post" th:object="${course}" class="w-full max-w-md relative z-10">
+
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-black tracking-tight text-white sm:text-4xl">
+                    Novo Curso
+                </h1>
+                <p class="mt-2 text-sm text-slate-400">
+                    Preencha as especificações para publicar um novo conteúdo.
+                </p>
             </div>
 
-            <div>
-                <input type="text" name="teacher"
-                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"
-                    placeholder="Teacher" th:field="*{teacherName}">
-            </div>
+            <div
+                class="space-y-5 rounded-[2.5rem] border border-white/10 bg-slate-900/60 p-6 sm:p-10 shadow-2xl shadow-emerald-950/20 backdrop-blur-md">
 
-            <div>
-                <textarea name="description" cols="10" rows="3" placeholder="Description" th:field="*{description}"
-                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30"></textarea>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1.5">Nome do
+                        Curso</label>
+                    <input type="text" name="name" required th:field="*{name}"
+                        class="bg-slate-950/60 text-white placeholder-slate-500 text-sm rounded-xl w-full block p-4 focus:outline-none focus:ring-emerald-400 focus:ring-2 border border-white/10 transition-all"
+                        placeholder="Ex: Spring Boot Avançado">
+                </div>
 
-            </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1.5">Nome do
+                        Professor</label>
+                    <input type="text" name="teacher" required th:field="*{teacherName}"
+                        class="bg-slate-950/60 text-white placeholder-slate-500 text-sm rounded-xl w-full block p-4 focus:outline-none focus:ring-emerald-400 focus:ring-2 border border-white/10 transition-all"
+                        placeholder="Ex: Prof. Alexandre Silva">
+                </div>
 
-            <div class="relative w-full">
-                <select th:field="*{categoryId}"
-                    class="bg-white/10 text-white placeholder-gray-400 text-sm rounded-lg w-full block p-4 pr-12 focus:outline-none focus:ring-lime-400 focus:ring-2 border border-purple-500/30 appearance-none cursor-pointer">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1.5">Descrição do
+                        Curso</label>
+                    <textarea name="description" cols="10" rows="3" th:field="*{description}" required
+                        class="bg-slate-950/60 text-white placeholder-slate-500 text-sm rounded-xl w-full block p-4 focus:outline-none focus:ring-emerald-400 focus:ring-2 border border-white/10 transition-all resize-none"
+                        placeholder="Descreva brevemente os objetivos e conteúdos do curso..."></textarea>
+                </div>
 
-                    <option value="" class="bg-purple-900 text-white">Selecione uma categoria</option>
+                <div>
+                    <label
+                        class="block text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1.5">Categoria</label>
+                    <div class="relative w-full">
+                        <select th:field="*{categoryId}" required
+                            class="w-full bg-slate-950/60 text-white text-sm rounded-xl block p-4 pr-12 focus:outline-none focus:ring-emerald-400 focus:ring-2 border border-white/10 appearance-none cursor-pointer transition-all">
+                            <option value="" class="text-slate-400 bg-slate-950">Selecione uma categoria</option>
+                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                th:text="${category.name}" class="text-white bg-slate-950">
+                                Nome da Categoria
+                            </option>
+                        </select>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-emerald-400">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
 
-                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"
-                        class="bg-purple-900 text-white">
-                        Nome da Categoria
-                    </option>
-                </select>
+                <div th:if="${error}" class="flex flex-col items-center justify-center space-y-2 w-full mx-auto">
+                    <div
+                        class="w-full flex items-center justify-center rounded-xl bg-red-500/10 border border-red-500/20 py-3 px-4">
+                        <p class="text-red-400 font-medium text-sm text-center whitespace-normal break-words w-full"
+                            th:text="${error}"></p>
+                    </div>
+                </div>
 
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-lime-400">
-                    <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
+                <button type="submit"
+                    class="w-full p-4 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-950 font-bold tracking-wider hover:brightness-110 transition-all shadow-lg shadow-emerald-500/10">
+                    CADASTRAR CURSO
+                </button>
+
+                <div class="border-t border-white/5 mt-4 pt-4 text-center">
+                    <a href="/courses"
+                        class="inline-block text-sm font-bold text-white hover:text-emerald-300 transition-colors underline underline-offset-4">
+                        Voltar para o Catálogo de Cursos
+                    </a>
                 </div>
             </div>
+        </form>
+    </main>
 
-        </div>
-
-        <div class="flex flex-col items-center justify-center space-y-2 w-full mx-auto">
-
-            <p class="text-red-400 mt-2 mb-6 font-medium text-sm text-center whitespace-normal break-words w-full"
-                th:if="${error}" th:text="${error}">
-            </p>
-
-        </div>
-
-        <button
-            class="bg-lime-400 mb-8 w-full p-4 rounded-lg text-purple-950 font-bold tracking-wider hover:bg-lime-200 transition-colors shadow-lg shadow-lime-400/20">
-            CADASTRAR
-        </button>
-
-        <a href="/courses"
-            class="block text-center font-semibold text-lime-400/80 text-sm underline underline-offset-4 hover:text-white transition-colors">
-            Catálogo de Cursos
-        </a>
-        </div>
-    </form>
+    <footer class="w-full py-4 text-center text-xs text-slate-600 border-t border-white/5">
+        &copy; 2026 Courses API. Todos os direitos reservados.
+    </footer>
 </body>
 
 </html>
