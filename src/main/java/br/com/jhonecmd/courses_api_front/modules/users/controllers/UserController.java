@@ -195,12 +195,22 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, HttpServletRequest request) {
 
-        SecurityContextHolder.getContext().setAuthentication(null);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-        session.setAttribute("token", null);
+        SecurityContextHolder.clearContext();
+
+        if (session != null) {
+            session.invalidate();
+        }
+
+        var cookies = request.getCookies();
+        if (cookies != null) {
+            for (var cookie : cookies) {
+                if ("JSESSIONID".equals(cookie.getName())) {
+                    cookie.setMaxAge(0);
+                }
+            }
+        }
 
         return "redirect:/users/login";
     }

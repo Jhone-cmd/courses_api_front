@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" class="max-w-xs space-y-4" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Cursos - Catálogo Completo</title>
 </head>
@@ -17,7 +17,8 @@
         <header class="sticky top-0 z-20 border-b border-white/5 bg-slate-950/75 backdrop-blur-xl">
             <div
                 class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-                <a th:href="@{/}" class="flex items-center gap-3">
+
+                <a th:href="@{/}" class="flex items-center gap-3 shrink-0">
                     <div
                         class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-black shadow-lg shadow-emerald-500/20">
                         C
@@ -28,41 +29,46 @@
                     </div>
                 </a>
 
-                <nav class="flex flex-col gap-3 sm:flex-row">
-                    <sec:authorize access="!isAuthenticated()">
-                        <a th:href="@{/users/login}"
-                            class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-400/60 hover:bg-emerald-400/10">
-                            Entrar
+                <nav class="flex flex-col items-start gap-4 sm:flex-row sm:items-center lg:gap-6">
+
+                    <div th:if="${#authentication != null and #authentication.name != 'anonymousUser'}"
+                        class="flex flex-wrap items-center gap-1 rounded-full border border-white/5 bg-slate-900/60 p-1.5 backdrop-blur-sm">
+                        <a th:href="@{/courses}"
+                            class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                            Cursos
                         </a>
-                        <a th:href="@{/users/create}"
-                            class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:brightness-110">
-                            Criar conta
+
+                        <a sec:authorize="hasAnyRole('ROLE_RECTOR', 'ROLE_DIRECTOR')" th:href="@{/categories}"
+                            class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                            Categorias
                         </a>
-                    </sec:authorize>
 
-                    <sec:authorize access="isAuthenticated()">
-                        <div class="flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-white/5 backdrop-blur-sm self-center lg:self-auto">
-                            <a th:href="@{/courses}"
-                                class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
-                                Cursos
+                        <a th:href="@{/users/me}"
+                            class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                            Meu Perfil
+                        </a>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div th:if="${#authentication == null or #authentication.name == 'anonymousUser'}">
+                            <a th:href="@{/users/login}"
+                                class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-emerald-400/60 hover:bg-emerald-400/10 whitespace-nowrap">
+                                Entrar
                             </a>
-
-                            <a sec:authorize="hasAnyRole('RECTOR', 'DIRECTOR')" th:href="@{/categories}"
-                                class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
-                                Categorias
-                            </a>
-
-                            <a th:href="@{/users/me}"
-                                class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
-                                Meu Perfil
+                            <a th:href="@{/users/create}"
+                                class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:brightness-110 whitespace-nowrap">
+                                Criar conta
                             </a>
                         </div>
 
-                        <a th:href="@{/users/logout}"
-                            class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-red-400/60 hover:bg-red-400/10">
-                            Sair
-                        </a>
-                    </sec:authorize>
+                        <div th:if="${#authentication != null and #authentication.name != 'anonymousUser'}">
+                            <a th:href="@{/users/logout}"
+                                class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-red-400/60 hover:bg-red-400/10 whitespace-nowrap">
+                                Sair
+                            </a>
+                        </div>
+                    </div>
+
                 </nav>
             </div>
         </header>
