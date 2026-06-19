@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
 
 <head>
     <meta charset="UTF-8">
@@ -29,14 +29,40 @@
                 </a>
 
                 <nav class="flex flex-col gap-3 sm:flex-row">
-                    <a th:href="@{/users/login}"
-                        class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-400/60 hover:bg-emerald-400/10">
-                        Entrar
-                    </a>
-                    <a th:href="@{/users/create}"
-                        class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:brightness-110">
-                        Criar conta
-                    </a>
+                    <sec:authorize access="!isAuthenticated()">
+                        <a th:href="@{/users/login}"
+                            class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-emerald-400/60 hover:bg-emerald-400/10">
+                            Entrar
+                        </a>
+                        <a th:href="@{/users/create}"
+                            class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:brightness-110">
+                            Criar conta
+                        </a>
+                    </sec:authorize>
+
+                    <sec:authorize access="isAuthenticated()">
+                        <div class="flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-white/5 backdrop-blur-sm self-center lg:self-auto">
+                            <a th:href="@{/courses}"
+                                class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                                Cursos
+                            </a>
+
+                            <a sec:authorize="hasAnyRole('RECTOR', 'DIRECTOR')" th:href="@{/categories}"
+                                class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                                Categorias
+                            </a>
+
+                            <a th:href="@{/users/me}"
+                                class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                                Meu Perfil
+                            </a>
+                        </div>
+
+                        <a th:href="@{/users/logout}"
+                            class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-red-400/60 hover:bg-red-400/10">
+                            Sair
+                        </a>
+                    </sec:authorize>
                 </nav>
             </div>
         </header>
