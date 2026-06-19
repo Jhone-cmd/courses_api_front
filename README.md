@@ -1,4 +1,4 @@
-# courses_api_front
+# Courses_Api_Front
 
 Resumo detalhado da aplicação (análise feita assistindo videoaulas da RocketSeat).
 
