@@ -1,9 +1,7 @@
 package br.com.jhonecmd.courses_api_front.modules.courses.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,15 +27,10 @@ import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 public class CourseController {
 
     private final CreateCourseService createCourseService;
-
     private final FetchCategoriesService fetchCategoriesService;
-
     private final FetchCoursesService fetchCoursesService;
-
     private final GetByCourseService getByCourseService;
-
     private final ChangeStatusCourseService changeStatusCourseService;
-
     private final DeleteCourseService deleteCourseService;
 
     CourseController(CreateCourseService createCourseService, FetchCategoriesService fetchCategoriesService,
@@ -53,11 +46,14 @@ public class CourseController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
-    public String listCourses(Model model) {
+    public String listCourses(Model model, Authentication authentication) {
         try {
+            if (authentication == null || authentication.getDetails() == null) {
+                return "redirect:/users/login";
+            }
 
-            var result = fetchCoursesService.execute(getToken());
-            authenticated();
+            String token = authentication.getDetails().toString();
+            var result = fetchCoursesService.execute(token);
             model.addAttribute("courses", result);
             return "modules/courses/courses";
         } catch (HttpClientErrorException ex) {
@@ -69,10 +65,14 @@ public class CourseController {
 
     @GetMapping("/create")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
-    public String create(Model model) {
+    public String create(Model model, Authentication authentication) {
+        if (authentication == null || authentication.getDetails() == null) {
+            return "redirect:/users/login";
+        }
 
-        var result = fetchCategoriesService.execute(getToken());
-        authenticated();
+        String token = authentication.getDetails().toString();
+        var result = fetchCategoriesService.execute(token);
+
         model.addAttribute("categories", result);
         model.addAttribute("course", new CreateCourseDTO());
         return "modules/courses/create";
@@ -81,7 +81,6 @@ public class CourseController {
     @PostMapping("/create")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
     public String save(CreateCourseDTO courseDTO, Model model) {
-
         try {
             createCourseService.execute(getToken(), courseDTO);
             return "redirect:/courses";
@@ -90,15 +89,19 @@ public class CourseController {
             model.addAttribute("course", courseDTO);
             return "modules/categories/create";
         }
-
     }
 
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
-    public String update(Model model, @PathVariable("id") String courseId) {
+    public String update(Model model, @PathVariable("id") String courseId, Authentication authentication) {
+        if (authentication == null || authentication.getDetails() == null) {
+            return "redirect:/users/login";
+        }
 
-        model.addAttribute("course", getByCourseService.execute(getToken(), courseId));
-        var result = fetchCategoriesService.execute(getToken());
+        String token = authentication.getDetails().toString();
+        model.addAttribute("course", getByCourseService.execute(token, courseId));
+
+        var result = fetchCategoriesService.execute(token);
         model.addAttribute("categories", result);
         return "modules/courses/update";
     }
@@ -106,7 +109,6 @@ public class CourseController {
     @PatchMapping("/{id}/active")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
     public String changeStatusCourse(@PathVariable("id") String courseId) {
-
         changeStatusCourseService.execute(getToken(), courseId);
         return "redirect:/courses";
     }
@@ -114,23 +116,15 @@ public class CourseController {
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR') or hasRole('COORDINATOR')")
     public String delete(@PathVariable("id") String courseId) {
-
         deleteCourseService.execute(getToken(), courseId);
         return "redirect:/courses";
     }
 
     private String getToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getDetails() == null) {
+            return "";
+        }
         return authentication.getDetails().toString();
-    }
-
-    private void authenticated() {
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                "user",
-                null,
-                AuthorityUtils.createAuthorityList("ROLE_RECTOR", "ROLE_DIRECTOR", "ROLE_COORDINATOR"));
-
-        auth.setDetails(getToken());
-        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 }

@@ -92,30 +92,32 @@ public class UserController {
     @PostMapping("/signIn")
     public String singIn(RedirectAttributes redirectAttributes, HttpSession session, String email, String password) {
         try {
-
             var token = loginUserService.execute(email, password);
+
             var grants = token.getPosition().stream()
-                    .map(role -> new SimpleGrantedAuthority("ROLE_" +
-                            role.toString().toUpperCase()))
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toString().toUpperCase()))
                     .toList();
 
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null, grants);
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                    email,
+                    null,
+                    grants);
 
             auth.setDetails(token.getAccess_token());
 
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            SecurityContext securityContext = SecurityContextHolder.getContext();
+            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+            securityContext.setAuthentication(auth);
+            SecurityContextHolder.setContext(securityContext);
+
             session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
             session.setAttribute("token", token);
 
             return "redirect:/courses";
 
         } catch (HttpClientErrorException ex) {
-
             redirectAttributes.addFlashAttribute("error", "Credenciais Inválidas");
             return "redirect:/users/login";
         }
-
     }
 
     @GetMapping("/me")

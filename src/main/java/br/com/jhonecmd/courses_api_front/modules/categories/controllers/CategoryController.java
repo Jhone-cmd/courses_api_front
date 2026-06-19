@@ -1,9 +1,7 @@
 package br.com.jhonecmd.courses_api_front.modules.categories.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,13 +27,9 @@ import br.com.jhonecmd.courses_api_front.utils.FormatErrorMessage;
 public class CategoryController {
 
     private final CreateCategoryService createCategoryService;
-
     private final FetchCategoriesService fetchCategoriesService;
-
     private final GetByCategoryService getByCategoryService;
-
     private final UpdateCategoryService updateCategoryService;
-
     private final DeleteCategoryService deleteCategoryService;
 
     CategoryController(CreateCategoryService createCategoryService, FetchCategoriesService fetchCategoriesService,
@@ -50,12 +44,14 @@ public class CategoryController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
-    public String listCategories(Model model) {
-
+    public String listCategories(Model model, Authentication authentication) {
         try {
+            if (authentication == null || authentication.getDetails() == null) {
+                return "redirect:/users/login";
+            }
 
-            var result = fetchCategoriesService.execute(getToken());
-            authenticated();
+            String token = authentication.getDetails().toString();
+            var result = fetchCategoriesService.execute(token);
             model.addAttribute("categories", result);
             return "modules/categories/categories";
         } catch (HttpClientErrorException ex) {
@@ -63,7 +59,6 @@ public class CategoryController {
             SecurityContextHolder.clearContext();
             return "redirect:/users/login";
         }
-
     }
 
     @GetMapping("/create")
@@ -76,7 +71,6 @@ public class CategoryController {
     @PostMapping("/create")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
     public String save(CreateCategoryDTO categoryDTO, Model model) {
-
         try {
             createCategoryService.execute(getToken(), categoryDTO);
             return "redirect:/categories";
@@ -85,18 +79,22 @@ public class CategoryController {
             model.addAttribute("category", categoryDTO);
             return "modules/categories/create";
         }
-
     }
 
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
-    public String update(Model model, @PathVariable("id") String categoryId) {
+    public String update(Model model, @PathVariable("id") String categoryId, Authentication authentication) {
+        if (authentication == null || authentication.getDetails() == null) {
+            return "redirect:/users/login";
+        }
 
-        model.addAttribute("category", getByCategoryService.execute(getToken(), categoryId));
+        String token = authentication.getDetails().toString();
+        model.addAttribute("category", getByCategoryService.execute(token, categoryId));
         return "modules/categories/update";
     }
 
     @PostMapping("/editar/{id}")
+    @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
     public String saveUpdate(@PathVariable("id") String categoryId,
             @ModelAttribute("category") UpdateCategoryDTO updateCategoryDTO) {
 
@@ -107,24 +105,15 @@ public class CategoryController {
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('RECTOR') or hasRole('DIRECTOR')")
     public String delete(@PathVariable("id") String categoryId) {
-
         deleteCategoryService.execute(getToken(), categoryId);
         return "redirect:/categories";
     }
 
     private String getToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getDetails() == null) {
+            return "";
+        }
         return authentication.getDetails().toString();
     }
-
-    private void authenticated() {
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                "user",
-                null,
-                AuthorityUtils.createAuthorityList("ROLE_RECTOR", "ROLE_DIRECTOR"));
-
-        auth.setDetails(getToken());
-        SecurityContextHolder.getContext().setAuthentication(auth);
-    }
-
 }
