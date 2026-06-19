@@ -18,9 +18,10 @@
             class="absolute inset-x-0 top-0 -z-10 h-96 bg-[linear-gradient(135deg,rgba(16,185,129,0.1),rgba(59,130,246,0.05),transparent_72%)] blur-3xl">
         </div>
 
-        <header class="sticky top-0 z-20 border-b border-white/5 bg-slate-950/75 backdrop-blur-xl">
+        <header class="sticky top-0 z-50 border-b border-white/5 bg-slate-950/75 backdrop-blur-xl">
             <div
                 class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+
                 <a th:href="@{/}" class="flex items-center gap-3">
                     <div
                         class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-black shadow-lg shadow-emerald-500/20">
@@ -28,16 +29,39 @@
                     </div>
                     <div>
                         <p class="text-sm uppercase tracking-[0.3em] text-emerald-300/80">Courses API</p>
-                        <h1 class="text-lg font-semibold text-white">Painel Administrativo</h1>
+                        <h1 class="text-xs font-semibold text-white/60">Painel Administrativo</h1>
                     </div>
                 </a>
 
-                <nav class="flex flex-col gap-3 sm:flex-row">
-                    <a th:href="@{/}"
-                        class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/10">
-                        Voltar ao Início
+                <nav
+                    class="flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-white/5 backdrop-blur-sm self-center lg:self-auto">
+
+                    <a th:href="@{/courses}"
+                        class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 text-emerald-400 border border-emerald-500/10 shadow-sm">
+                        Cursos
+                    </a>
+
+                    <a th:if="${userLogged?.position != null and (
+                        #strings.toUpperCase(userLogged.position) == 'RECTOR' or 
+                        #strings.toUpperCase(userLogged.position) == 'REITOR' or 
+                        #strings.toUpperCase(userLogged.position) == 'DIRECTOR' or 
+                        #strings.toUpperCase(userLogged.position) == 'DIRETOR')}" th:href="@{/categories}"
+                        class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                        Categorias
+                    </a>
+
+                    <a th:href="@{/users/me}"
+                        class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                        Meu Perfil
                     </a>
                 </nav>
+
+                <div class="flex justify-center sm:justify-end" sec:authorize="isAuthenticated()">
+                    <a th:href="@{/users/logout}"
+                        class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400">
+                        Sair
+                    </a>
+                </div>
             </div>
         </header>
 
@@ -51,7 +75,7 @@
                         Área Restrita
                     </div>
                     <h2 class="text-3xl font-black text-white sm:text-4xl tracking-tight">Gerenciamento de Cursos</h2>
-                    <p class="text-slate-400 mt-1">Gerencie o catálogo de disciplinas disponíveis no sistema</p>
+                    <p class="text-slate-400 mt-1">Gerencie o catálogo de disciplinas disponíveis no system</p>
                 </div>
 
                 <a sec:authorize="hasAnyRole('RECTOR', 'DIRECTOR', 'COORDINATOR')" th:href="@{/courses/create}"

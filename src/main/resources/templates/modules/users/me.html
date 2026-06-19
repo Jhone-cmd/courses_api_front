@@ -35,7 +35,11 @@
                     class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
                     Cursos
                 </a>
-                <a th:href="@{/categories}"
+                <a th:if="${userLogged?.position != null and (
+                        #strings.toUpperCase(userLogged.position) == 'RECTOR' or 
+                        #strings.toUpperCase(userLogged.position) == 'REITOR' or 
+                        #strings.toUpperCase(userLogged.position) == 'DIRECTOR' or 
+                        #strings.toUpperCase(userLogged.position) == 'DIRETOR')}" th:href="@{/categories}"
                     class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
                     Categorias
                 </a>

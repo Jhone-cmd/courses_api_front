@@ -128,7 +128,7 @@ public class CourseController {
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                 "user",
                 null,
-                AuthorityUtils.createAuthorityList("ROLE_RECTOR", "ROLE_DIRECTOR"));
+                AuthorityUtils.createAuthorityList("ROLE_RECTOR", "ROLE_DIRECTOR", "ROLE_COORDINATOR"));
 
         auth.setDetails(getToken());
         SecurityContextHolder.getContext().setAuthentication(auth);
