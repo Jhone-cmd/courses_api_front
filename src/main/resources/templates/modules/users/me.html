@@ -15,8 +15,10 @@
         class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.12),_transparent_40%),radial-gradient(circle_at_bottom,_rgba(56,189,248,0.08),_transparent_30%),linear-gradient(180deg,_#020617_0%,_#0f172a_100%)]">
     </div>
 
-    <header class="w-full border-b border-white/5 bg-slate-950/75 backdrop-blur-xl">
-        <div class="mx-auto max-w-7xl flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <header class="w-full border-b border-white/5 bg-slate-950/75 backdrop-blur-xl sticky top-0 z-50">
+        <div
+            class="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between px-4 py-4 sm:px-6 lg:px-8 gap-4 sm:gap-0">
+
             <a th:href="@{/}" class="flex items-center gap-3">
                 <div
                     class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-black shadow-lg shadow-emerald-500/20">
@@ -26,6 +28,22 @@
                     <p class="text-sm uppercase tracking-[0.3em] text-emerald-300/80">Courses API</p>
                 </div>
             </a>
+
+            <nav
+                class="flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-white/5 backdrop-blur-sm">
+                <a th:href="@{/courses}"
+                    class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                    Cursos
+                </a>
+                <a th:href="@{/categories}"
+                    class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors">
+                    Categorias
+                </a>
+                <a th:href="@{/users/me}"
+                    class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 text-emerald-400 border border-emerald-500/10 shadow-sm">
+                    Meu Perfil
+                </a>
+            </nav>
 
             <a th:href="@{/users/logout}"
                 class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400">
@@ -108,10 +126,16 @@
                         <hr class="border-white/5 my-6">
 
                         <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-2">
-                            <a th:href="@{/users/profiles}"
+
+                            <a th:if="${#strings.toUpperCase(userLogged.position) == 'RECTOR' or #strings.toUpperCase(userLogged.position) == 'REITOR'}"
+                                th:href="@{/users/profiles}"
                                 class="text-sm font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-2 group">
                                 <span class="transition-transform group-hover:-translate-x-1">←</span> Lista de Usuários
                             </a>
+
+                            <div th:unless="${#strings.toUpperCase(userLogged.position) == 'RECTOR' or #strings.toUpperCase(userLogged.position) == 'REITOR'}"
+                                class="hidden sm:block">
+                            </div>
 
                             <div class="flex space-x-3 w-full sm:w-auto justify-end">
                                 <a th:href="@{/users/editar/{id}(id=${userLogged.id})}"
