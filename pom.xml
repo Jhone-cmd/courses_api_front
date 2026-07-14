@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>br.com.jhonecmd</groupId>
 	<artifactId>courses_api_front</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>courses_api_front</name>
 	<description/>
 	<url/>
